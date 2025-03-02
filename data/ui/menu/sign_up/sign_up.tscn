@@ -93,4 +93,6 @@ layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kvaoj")
 text = "Voltar"
 
+[connection signal="pressed" from="content/top_bar/margin/close" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="content/margin/content/buttons/sign_up" to="." method="_on_sign_up_pressed"]
 [connection signal="pressed" from="content/margin/content/buttons/back" to="." method="_on_close_pressed"]

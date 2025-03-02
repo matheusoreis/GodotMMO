@@ -17,17 +17,13 @@ class_name SignUp extends PanelContainer
 func _ready() -> void:
 	self.gui_input.connect(_on_gui_input)
 
-	for child in get_children():
+	for child in get_children() as Array[Node]:
 		_change_mouse_filter(child)
-
-	close_button.pressed.connect(_on_close_pressed)
-	sign_up_button.pressed.connect(_on_sign_up_pressed)
-	back_button.pressed.connect(_on_back_pressed)
 
 
 func _change_mouse_filter(control: Control) -> void:
 	control.mouse_filter = Control.MOUSE_FILTER_PASS
-	for child in control.get_children():
+	for child in control.get_children() as Array[Node]:
 		_change_mouse_filter(child)
 
 

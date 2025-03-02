@@ -31,7 +31,7 @@ var current_texture_index: int = 0
 func _ready() -> void:
 	self.gui_input.connect(_on_gui_input)
 
-	for child in get_children():
+	for child in get_children() as Array[Node]:
 		_change_mouse_filter(child)
 
 	_update_texture()
@@ -40,7 +40,7 @@ func _ready() -> void:
 func _change_mouse_filter(control: Node) -> void:
 	if control is Control:
 		control.mouse_filter = Control.MOUSE_FILTER_PASS
-		for child in control.get_children():
+		for child in control.get_children() as Array[Node]:
 			_change_mouse_filter(child)
 
 
@@ -61,15 +61,14 @@ func _on_confirm_pressed() -> void:
 		])
 		return
 
-	var textures = _get_current_textures()
-
+	var textures = _get_current_textures() as Array[Texture2D]
 	if textures.is_empty():
 		return
 
-	var selected_texture: CompressedTexture2D = textures[current_texture_index]
-	var texture_path: String = selected_texture.resource_path
-	var texture_file_name_extension: String = texture_path.get_file()
-	var texture_file_name: String = texture_file_name_extension.get_basename()
+	var selected_texture := textures[current_texture_index] as CompressedTexture2D
+	var texture_path := selected_texture.resource_path as String
+	var texture_file_name_extension := texture_path.get_file() as String
+	var texture_file_name := texture_file_name_extension.get_basename() as String
 
 	#Multiplayer.client.send(
 		#CCreateCharacterOutgoing.new(
@@ -85,7 +84,7 @@ func _on_back_pressed() -> void:
 
 
 func _on_next_pressed() -> void:
-	var textures = _get_current_textures()
+	var textures = _get_current_textures() as Array[Texture2D]
 	if textures.is_empty():
 		return
 
@@ -94,7 +93,7 @@ func _on_next_pressed() -> void:
 
 
 func _on_previous_pressed() -> void:
-	var textures = _get_current_textures()
+	var textures = _get_current_textures() as Array[Texture2D]
 	if textures.is_empty():
 		return
 
@@ -115,11 +114,11 @@ func _on_female_pressed() -> void:
 
 
 func _update_texture() -> void:
-	var textures = _get_current_textures()
+	var textures = _get_current_textures() as Array[Texture2D]
 	if textures.is_empty():
-		texture_area.texture = null
-	else:
-		texture_area.texture = textures[current_texture_index]
+		return
+
+	texture_area.texture = textures[current_texture_index]
 
 
 func _get_current_textures() -> Array[Texture2D]:

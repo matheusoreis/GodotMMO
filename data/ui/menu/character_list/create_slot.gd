@@ -1,4 +1,4 @@
-extends PanelContainer
+class_name CreateCharacterSlot extends PanelContainer
 
 @export_group("Nodes")
 @export_subgroup('Buttons')
