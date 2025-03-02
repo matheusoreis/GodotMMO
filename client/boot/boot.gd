@@ -4,7 +4,7 @@ extends Control
 var _client: Client
 var _handler: Handler
 
-var _incomings: Dictionary = {}
+var _handlers: Dictionary = {}
 
 
 func _init() -> void:
@@ -43,4 +43,15 @@ func _client_error(message: String) -> void:
 
 
 func _client_received_packed(packed: PackedByteArray) -> void:
-	print(packed)
+	if packed.size() < 2:
+		_client.disconnect_from_server()
+		return
+
+	var incoming := Incoming.new()
+	incoming.add_packed(packed)
+
+	_handler.handle(
+		get_tree(),
+		incoming,
+		_handlers
+	)

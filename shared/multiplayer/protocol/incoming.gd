@@ -1,51 +1,44 @@
 class_name Incoming extends RefCounted
 
 
-var _buffer: StreamPeerBuffer
+var _packed: StreamPeerBuffer
 
 
-func _init(buffer: PackedByteArray):
-	_buffer = StreamPeerBuffer.new()
-	_buffer.data_array = buffer
-	_buffer.seek(0)
+func add_packed(packed: PackedByteArray):
+	_packed = StreamPeerBuffer.new()
+	_packed.data_array = packed
+	_packed.seek(0)
 
 
 func get_id() -> int:
-	return _buffer.get_16()
-
-
-func get_content() -> PackedByteArray:
-	return _buffer.data_array.slice(
-		_buffer.get_position(),
-		_buffer.data_array.size()
-	)
+	return _packed.get_16()
 
 
 func get_int8() -> int:
-	return _buffer.get_u8()
+	return _packed.get_u8()
 
 
 func get_int16() -> int:
-	return _buffer.get_u16()
+	return _packed.get_u16()
 
 
 func get_int32() -> int:
-	return _buffer.get_u32()
+	return _packed.get_u32()
 
 
 func get_string() -> String:
-	return _buffer.get_utf8_string()
+	return _packed.get_utf8_string()
 
 
 func get_float() -> float:
-	return _buffer.get_float()
+	return _packed.get_float()
 
 
 func get_bool() -> bool:
-	return bool(_buffer.get_u8())
+	return bool(_packed.get_u8())
 
 
 func get_vector2() -> Vector2:
-	var x := _buffer.get_float()
-	var y := _buffer.get_float()
+	var x := _packed.get_float()
+	var y := _packed.get_float()
 	return Vector2(x, y)
