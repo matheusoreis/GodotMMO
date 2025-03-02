@@ -15,6 +15,31 @@ func client_is_connected() -> bool:
 	return _network != null and _network.peer != null
 
 
+func connect_to_server() -> void:
+	if client_is_connected():
+		client_error.emit("Já está conectado a um servidor.")
+		return
+
+	_socket = ENetConnection.new()
+	var host: String = CConstants.host
+	var port: int = CConstants.port
+
+	var error := _socket.create_host()
+	if error != OK:
+		client_error.emit("Falha ao iniciar o cliente! Erro: %d" % error)
+		_socket = null
+		return
+
+	var network: NetworkModel = NetworkModel.new()
+	network.peer = _socket.connect_to_host(host, port)
+
+	if network.peer == null:
+		client_error.emit("Falha ao conectar ao servidor em %s:%d" % [host, port])
+		return
+
+	_network = network
+
+
 func process() -> void:
 	if not client_is_connected():
 		return
@@ -68,31 +93,6 @@ func _handle_receive(peer: ENetPacketPeer) -> void:
 	received_packed.emit(
 		_network.peer.get_packet()
 	)
-
-
-func connect_to_server() -> void:
-	if client_is_connected():
-		client_error.emit("Já está conectado a um servidor.")
-		return
-
-	_socket = ENetConnection.new()
-	var host: String = CConstants.host
-	var port: int = CConstants.port
-
-	var error := _socket.create_host()
-	if error != OK:
-		client_error.emit("Falha ao iniciar o cliente! Erro: %d" % error)
-		_socket = null
-		return
-
-	var network: NetworkModel = NetworkModel.new()
-	network.peer = _socket.connect_to_host(host, port)
-
-	if network.peer == null:
-		client_error.emit("Falha ao conectar ao servidor em %s:%d" % [host, port])
-		return
-
-	_network = network
 
 
 func disconnect_from_server() -> void:
