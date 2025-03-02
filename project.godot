@@ -20,6 +20,8 @@ Multiplayer="*res://shared/multiplayer/multiplayer.gd"
 CConstants="*res://client/utils/constants.gd"
 CGlobals="*res://client/utils/globals.gd"
 CNotification="*res://client/utils/notification.gd"
+SConstants="*res://server/utils/constants.gd"
+SGlobals="*res://server/utils/globals.gd"
 
 [rendering]
 
