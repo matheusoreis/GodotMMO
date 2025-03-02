@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Godot MMO"
+run/main_scene="res://shared/boot/boot.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
 
@@ -20,6 +21,8 @@ Multiplayer="*res://shared/multiplayer/multiplayer.gd"
 CConstants="*res://client/utils/constants.gd"
 CGlobals="*res://client/utils/globals.gd"
 CNotification="*res://client/utils/notification.gd"
+SConstants="*res://server/utils/constants.gd"
+SGlobals="*res://server/utils/globals.gd"
 
 [rendering]
 

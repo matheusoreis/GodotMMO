@@ -1,4 +1,4 @@
-class_name NetworkModel extends Resource
+class_name ConnectionModel extends Resource
 
 
 var peer: ENetPacketPeer:
