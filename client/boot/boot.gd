@@ -34,7 +34,7 @@ func _client_connected() -> void:
 	print("Sucesso ao se conectar ao servidor!")
 
 
-func _client_disconnected(network: NetworkModel) -> void:
+func _client_disconnected(network: ConnectionModel) -> void:
 	print("Cliente desconectado do servidor, peer: ", network.peer)
 
 
