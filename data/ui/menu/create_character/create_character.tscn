@@ -1,7 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://c2uek6s5dv2o4"]
+[gd_scene load_steps=15 format=3 uid="uid://c2uek6s5dv2o4"]
 
 [ext_resource type="Script" path="res://data/ui/top.gd" id="1_i107f"]
 [ext_resource type="Script" path="res://data/ui/menu/create_character/create_character.gd" id="1_smeqp"]
+[ext_resource type="Texture2D" uid="uid://uf1h82lv0ist" path="res://assets/characters/1.png" id="2_h40do"]
+[ext_resource type="Texture2D" uid="uid://g0ke1gd75ar3" path="res://assets/characters/3.png" id="3_7mpmm"]
+[ext_resource type="Texture2D" uid="uid://k2cgxd2ll7sa" path="res://assets/characters/4.png" id="4_4jvrp"]
+[ext_resource type="Texture2D" uid="uid://dvjp5dyarv28x" path="res://assets/characters/5.png" id="5_8j8x1"]
+[ext_resource type="Texture2D" uid="uid://sh2sctg3qopw" path="res://assets/characters/2.png" id="6_viyfa"]
+[ext_resource type="Texture2D" uid="uid://cqh4vwlh00f0n" path="res://assets/characters/6.png" id="7_fbbwc"]
+[ext_resource type="Texture2D" uid="uid://bb7hx6b7taql3" path="res://assets/characters/7.png" id="8_r0ess"]
+[ext_resource type="Texture2D" uid="uid://kmqmveex4bij" path="res://assets/characters/8.png" id="9_woq73"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kvaoj"]
 
@@ -16,6 +24,8 @@ custom_minimum_size = Vector2(250, 200)
 offset_right = 482.0
 offset_bottom = 256.0
 script = ExtResource("1_smeqp")
+male_textures = Array[Texture2D]([ExtResource("2_h40do"), ExtResource("3_7mpmm"), ExtResource("4_4jvrp"), ExtResource("5_8j8x1")])
+famale_textures = Array[Texture2D]([ExtResource("6_viyfa"), ExtResource("7_fbbwc"), ExtResource("8_r0ess"), ExtResource("9_woq73")])
 close_button = NodePath("content/top_bar/margin/close")
 name_line = NodePath("content/margin/content/customization/margin/styles/name")
 famale_button = NodePath("content/margin/content/sex/content/female")
