@@ -9,7 +9,7 @@ func show(messages: Array[String]) -> void:
 	var notification_instance := notification_ui.instantiate() as NotificationUI
 	notification_instance.message = "\n".join(messages)
 
-	var menu := get_tree().root.get_node("/boot/shared") as CanvasLayer
+	var menu := get_tree().root.get_node("boot/shared") as CanvasLayer
 	menu.add_child(notification_instance)
 
 
