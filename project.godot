@@ -17,6 +17,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 Multiplayer="*res://shared/multiplayer/multiplayer.gd"
+CConstants="*res://client/utils/constants.gd"
+CGlobals="*res://client/utils/globals.gd"
 
 [rendering]
 
