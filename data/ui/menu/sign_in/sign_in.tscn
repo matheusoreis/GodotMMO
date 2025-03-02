@@ -7,12 +7,17 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ycsn6"]
 
-[node name="sign_in" type="PanelContainer"]
+[node name="sign_in" type="PanelContainer" node_paths=PackedStringArray("close_button", "email_line", "password_line", "sign_in_button", "sign_up_button")]
 custom_minimum_size = Vector2(250, 220)
 offset_right = 250.0
 offset_bottom = 220.0
 focus_mode = 1
 script = ExtResource("1_rukkk")
+close_button = NodePath("content/top_bar/margin/close")
+email_line = NodePath("content/margin/content/inputs/email")
+password_line = NodePath("content/margin/content/inputs/password")
+sign_in_button = NodePath("content/margin/content/buttons/sign_in")
+sign_up_button = NodePath("content/margin/content/buttons/sign_up")
 
 [node name="content" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -84,3 +89,7 @@ custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_vbywh")
 text = "Cadastrar"
+
+[connection signal="pressed" from="content/top_bar/margin/close" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="content/margin/content/buttons/sign_in" to="." method="_on_sign_in_pressed"]
+[connection signal="pressed" from="content/margin/content/buttons/sign_up" to="." method="_on_sign_up_pressed"]

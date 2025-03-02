@@ -5,11 +5,12 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kvaoj"]
 
-[node name="character_list" type="PanelContainer" node_paths=PackedStringArray("slots_location")]
+[node name="character_list" type="PanelContainer" node_paths=PackedStringArray("close_button", "slots_location")]
 custom_minimum_size = Vector2(250, 180)
 offset_right = 490.0
 offset_bottom = 264.0
 script = ExtResource("1_qhoti")
+close_button = NodePath("content/top_bar/margin/close")
 slots_location = NodePath("content/margin/content")
 
 [node name="content" type="VBoxContainer" parent="."]
@@ -50,3 +51,5 @@ theme_override_constants/margin_bottom = 10
 [node name="content" type="HBoxContainer" parent="content/margin"]
 layout_mode = 2
 theme_override_constants/separation = 10
+
+[connection signal="pressed" from="content/top_bar/margin/close" to="." method="_on_close_pressed"]

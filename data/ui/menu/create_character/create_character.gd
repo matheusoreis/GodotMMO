@@ -1,22 +1,31 @@
 class_name CreateCharacter extends PanelContainer
 
 
+@export_group("Nodes")
+@export_subgroup('Textures')
 @export var male_textures: Array[Texture2D] = []
 @export var famale_textures: Array[Texture2D] = []
 
-@onready var close_button: Button = $content/top_bar/margin/close
-@onready var name_line: LineEdit = $content/margin/content/customization/margin/styles/name
-@onready var confirm_button: Button = $content/margin/content/customization/margin/styles/buttons/confirm
-@onready var back_button: Button = $content/margin/content/customization/margin/styles/buttons/back
+@export_subgroup('Top Bar')
+@export var close_button: Button
+
+@export_subgroup("Line Edits")
+@export var name_line: LineEdit
 
 var is_male: int = 1
-@onready var famale_button: Button = $content/margin/content/sex/content/female
-@onready var male_button: Button = $content/margin/content/sex/content/male
+@export_subgroup("Gender")
+@export var famale_button: Button
+@export var male_button: Button
 
 var current_texture_index: int = 0
-@onready var texture_area: Sprite2D = $content/margin/content/sex/content/texture
-@onready var next_skin_button: Button = $content/margin/content/customization/margin/styles/skin/next
-@onready var previous_skin_button: Button = $content/margin/content/customization/margin/styles/skin/previous
+@export_subgroup("Sprite")
+@export var texture_area: Sprite2D
+@export var next_skin_button: Button
+@export var previous_skin_button: Button
+
+@export_subgroup("Buttons")
+@export var confirm_button: Button
+@export var back_button: Button
 
 
 func _ready() -> void:
@@ -24,16 +33,6 @@ func _ready() -> void:
 
 	for child in get_children():
 		_change_mouse_filter(child)
-
-	close_button.pressed.connect(_on_close_pressed)
-	confirm_button.pressed.connect(_on_confirm_pressed)
-	back_button.pressed.connect(_on_back_pressed)
-
-	next_skin_button.pressed.connect(_on_next_skin_pressed)
-	previous_skin_button.pressed.connect(_on_previous_skin_pressed)
-
-	male_button.pressed.connect(_on_male_selected)
-	famale_button.pressed.connect(_on_female_selected)
 
 	_update_texture()
 
@@ -57,7 +56,7 @@ func _on_close_pressed() -> void:
 
 func _on_confirm_pressed() -> void:
 	if name_line.text.is_empty():
-		Notification.show([
+		CNotification.show([
 			"Por favor, preencha todos os campos."
 		])
 		return
@@ -72,12 +71,12 @@ func _on_confirm_pressed() -> void:
 	var texture_file_name_extension: String = texture_path.get_file()
 	var texture_file_name: String = texture_file_name_extension.get_basename()
 
-	Multiplayer.client.send(
-		CCreateCharacterOutgoing.new(
-			name_line.text,
-			texture_file_name
-		)
-	)
+	#Multiplayer.client.send(
+		#CCreateCharacterOutgoing.new(
+			#name_line.text,
+			#texture_file_name
+		#)
+	#)
 
 
 func _on_back_pressed() -> void:
@@ -85,7 +84,7 @@ func _on_back_pressed() -> void:
 	CGlobals.menu_interface.show_interface("character_list")
 
 
-func _on_next_skin_pressed() -> void:
+func _on_next_pressed() -> void:
 	var textures = _get_current_textures()
 	if textures.is_empty():
 		return
@@ -94,7 +93,7 @@ func _on_next_skin_pressed() -> void:
 	_update_texture()
 
 
-func _on_previous_skin_pressed() -> void:
+func _on_previous_pressed() -> void:
 	var textures = _get_current_textures()
 	if textures.is_empty():
 		return
@@ -103,13 +102,13 @@ func _on_previous_skin_pressed() -> void:
 	_update_texture()
 
 
-func _on_male_selected() -> void:
+func _on_male_pressed() -> void:
 	is_male = 1
 	current_texture_index = 0
 	_update_texture()
 
 
-func _on_female_selected() -> void:
+func _on_female_pressed() -> void:
 	is_male = 0
 	current_texture_index = 0
 	_update_texture()

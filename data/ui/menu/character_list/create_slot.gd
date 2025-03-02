@@ -1,11 +1,8 @@
 extends PanelContainer
 
-
-@onready var _create_button: Button = $content/create
-
-
-func _ready() -> void:
-	_create_button.pressed.connect(_on_create_pressed)
+@export_group("Nodes")
+@export_subgroup('Buttons')
+@export var _create_button: Button
 
 
 func _on_create_pressed() -> void:

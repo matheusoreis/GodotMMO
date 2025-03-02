@@ -4,9 +4,10 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_my3hm"]
 
-[node name="create_slot" type="PanelContainer"]
+[node name="create_slot" type="PanelContainer" node_paths=PackedStringArray("_create_button")]
 custom_minimum_size = Vector2(150, 0)
 script = ExtResource("1_1w63o")
+_create_button = NodePath("content/create")
 
 [node name="content" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 200)
@@ -17,3 +18,5 @@ alignment = 2
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_my3hm")
 text = "Novo"
+
+[connection signal="pressed" from="content/create" to="." method="_on_create_pressed"]

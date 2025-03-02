@@ -1,12 +1,17 @@
 class_name SignUp extends PanelContainer
 
+@export_group("Nodes")
+@export_subgroup('Top Bar')
+@export var close_button: Button
 
-@onready var close_button: Button = $content/top_bar/margin/close
-@onready var email_line: LineEdit = $content/margin/content/inputs/email
-@onready var password_line: LineEdit = $content/margin/content/inputs/password
-@onready var repassword_line: LineEdit = $content/margin/content/inputs/repassword
-@onready var sign_up_button: Button = $content/margin/content/buttons/sign_up
-@onready var back_button: Button = $content/margin/content/buttons/back
+@export_subgroup("Line Edits")
+@export var email_line: LineEdit
+@export var password_line: LineEdit
+@export var repassword_line: LineEdit
+
+@export_subgroup("Buttons")
+@export var sign_up_button: Button
+@export var back_button: Button
 
 
 func _ready() -> void:
@@ -38,27 +43,21 @@ func _on_close_pressed() -> void:
 
 func _on_sign_up_pressed() -> void:
 	if email_line.text.is_empty() or password_line.text.is_empty() or repassword_line.text.is_empty():
-		Notification.show([
+		CNotification.show([
 			"Por favor, preencha todos os campos."
 		])
 		return
 
 	if password_line.text != repassword_line.text:
-		Notification.show([
+		CNotification.show([
 			'As senhas não estão iguais!'
 		])
 		return
 
-	Multiplayer.client.send(
-		CSignUpOutgoing.new(
-			email_line.text,
-			password_line.text
-		)
-	)
-
 	sign_up_button.disabled = true
-
-
-func _on_back_pressed() -> void:
-	hide()
-	CGlobals.menu_interface.show_interface("sign_in")
+	#Multiplayer.client.send(
+		#CSignUpOutgoing.new(
+			#email_line.text,
+			#password_line.text
+		#)
+	#)

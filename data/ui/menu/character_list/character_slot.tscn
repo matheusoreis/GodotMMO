@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=3 uid="uid://b1o4idle68k4x"]
+[gd_scene load_steps=3 format=3 uid="uid://b1o4idle68k4x"]
 
-[ext_resource type="Texture2D" uid="uid://uf1h82lv0ist" path="res://assets/graphics/characters/1.png" id="1_008gm"]
 [ext_resource type="Script" path="res://data/ui/menu/character_list/character_slot.gd" id="1_e7tix"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_my3hm"]
@@ -27,7 +26,6 @@ vertical_alignment = 1
 [node name="texture" type="Sprite2D" parent="content"]
 position = Vector2(74, 85)
 scale = Vector2(2, 2)
-texture = ExtResource("1_008gm")
 hframes = 4
 vframes = 4
 
@@ -45,3 +43,6 @@ text = "Selecionar"
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_my3hm")
 text = "Apagar"
+
+[connection signal="pressed" from="content/buttons/select" to="." method="_on_select_pressed"]
+[connection signal="pressed" from="content/buttons/delete" to="." method="_on_delete_pressed"]

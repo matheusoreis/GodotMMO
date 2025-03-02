@@ -1,19 +1,20 @@
 class_name CharacterListSlot extends PanelContainer
 
-var _id: int
+@export_group("Nodes")
+@export_subgroup('Labels')
 @export var _name_label: Label
+
+@export_subgroup('Sprites')
 @export var _texture_sprite: Sprite2D
+
+@export_subgroup('Buttons')
 @export var _select_button: Button
 @export var _delete_button: Button
 
-
-func _ready() -> void:
-	_select_button.pressed.connect(_on_select_pressed)
-	_delete_button.pressed.connect(_on_delete_pressed)
-
-
-func add_id(value: int) -> void:
-	_id = value
+var id: int:
+	set(value):
+		if value >= 0:
+			id = value
 
 
 func add_name(value: String) -> void:
@@ -39,16 +40,18 @@ func add_direction(value: Vector2) -> void:
 
 
 func _on_select_pressed() -> void:
-	Multiplayer.client.send(
-		CSelectCharacterOutgoing.new(
-			_id
-		)
-	)
+	pass
+	#Multiplayer.client.send(
+		#CSelectCharacterOutgoing.new(
+			#_id
+		#)
+	#)
 
 
 func _on_delete_pressed() -> void:
-	Multiplayer.client.send(
-		CDeleteCharacterOutgoing.new(
-			_id
-		)
-	)
+	pass
+	#Multiplayer.client.send(
+		#CDeleteCharacterOutgoing.new(
+			#_id
+		#)
+	#)

@@ -1,11 +1,16 @@
 class_name SignIn extends PanelContainer
 
+@export_group("Nodes")
+@export_subgroup('Top Bar')
+@export var close_button: Button
 
-@onready var close_button: Button = $content/top_bar/margin/close
-@onready var email_line: LineEdit = $content/margin/content/inputs/email
-@onready var password_line: LineEdit = $content/margin/content/inputs/password
-@onready var sign_in_button: Button = $content/margin/content/buttons/sign_in
-@onready var sign_up_button: Button = $content/margin/content/buttons/sign_up
+@export_subgroup("Line Edits")
+@export var email_line: LineEdit
+@export var password_line: LineEdit
+
+@export_subgroup("Buttons")
+@export var sign_in_button: Button
+@export var sign_up_button: Button
 
 
 func _ready() -> void:
@@ -36,19 +41,19 @@ func _on_close_pressed() -> void:
 
 func _on_sign_in_pressed() -> void:
 	if email_line.text.is_empty() || password_line.text.is_empty():
-		Notification.show([
+		CNotification.show([
 			"Por favor, preencha todos os campos."
 		])
 		return
 
-	Multiplayer.client.send(
-		CSignInOutgoing.new(
-			email_line.text,
-			password_line.text
-		)
-	)
-
 	sign_in_button.disabled = true
+	#Multiplayer.client.send(
+		#CSignInOutgoing.new(
+			#email_line.text,
+			#password_line.text
+		#)
+	#)
+
 
 
 func _on_sign_up_pressed() -> void:
