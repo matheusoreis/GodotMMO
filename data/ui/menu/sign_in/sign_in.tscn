@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3 uid="uid://diwjlpst5v714"]
+
+[ext_resource type="Script" path="res://data/ui/top.gd" id="1_epynf"]
+[ext_resource type="Script" path="res://data/ui/menu/sign_in/sign_in.gd" id="1_rukkk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vbywh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ycsn6"]
+
+[node name="sign_in" type="PanelContainer"]
+custom_minimum_size = Vector2(250, 220)
+offset_right = 250.0
+offset_bottom = 220.0
+focus_mode = 1
+script = ExtResource("1_rukkk")
+
+[node name="content" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="top_bar" type="HBoxContainer" parent="content"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+script = ExtResource("1_epynf")
+target_node = NodePath("../..")
+
+[node name="margin" type="MarginContainer" parent="content/top_bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="title" type="Label" parent="content/top_bar/margin"]
+layout_mode = 2
+text = "Acessar"
+
+[node name="close" type="Button" parent="content/top_bar/margin"]
+visible = false
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vbywh")
+
+[node name="margin" type="MarginContainer" parent="content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="content" type="VBoxContainer" parent="content/margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="inputs" type="VBoxContainer" parent="content/margin/content"]
+layout_mode = 2
+
+[node name="email" type="LineEdit" parent="content/margin/content/inputs"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ycsn6")
+text = "matheus@gmail.com"
+placeholder_text = "email@email.com.br"
+
+[node name="password" type="LineEdit" parent="content/margin/content/inputs"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ycsn6")
+text = "Matheus2024"
+placeholder_text = "•••••••"
+secret = true
+
+[node name="buttons" type="VBoxContainer" parent="content/margin/content"]
+layout_mode = 2
+
+[node name="sign_in" type="Button" parent="content/margin/content/buttons"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vbywh")
+text = "Acessar"
+
+[node name="sign_up" type="Button" parent="content/margin/content/buttons"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vbywh")
+text = "Cadastrar"

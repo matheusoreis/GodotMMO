@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1o4idle68k4x"]
+
+[ext_resource type="Texture2D" uid="uid://uf1h82lv0ist" path="res://assets/graphics/characters/1.png" id="1_008gm"]
+[ext_resource type="Script" path="res://data/ui/menu/character_list/character_slot.gd" id="1_e7tix"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_my3hm"]
+
+[node name="slot" type="PanelContainer" node_paths=PackedStringArray("_name_label", "_texture_sprite", "_select_button", "_delete_button")]
+custom_minimum_size = Vector2(150, 0)
+script = ExtResource("1_e7tix")
+_name_label = NodePath("content/name")
+_texture_sprite = NodePath("content/texture")
+_select_button = NodePath("content/buttons/select")
+_delete_button = NodePath("content/buttons/delete")
+
+[node name="content" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 210)
+layout_mode = 2
+
+[node name="name" type="Label" parent="content"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Raizen"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="texture" type="Sprite2D" parent="content"]
+position = Vector2(74, 85)
+scale = Vector2(2, 2)
+texture = ExtResource("1_008gm")
+hframes = 4
+vframes = 4
+
+[node name="buttons" type="VBoxContainer" parent="content"]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+alignment = 2
+
+[node name="select" type="Button" parent="content/buttons"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_my3hm")
+text = "Selecionar"
+
+[node name="delete" type="Button" parent="content/buttons"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_my3hm")
+text = "Apagar"

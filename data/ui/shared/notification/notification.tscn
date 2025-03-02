@@ -1,0 +1,93 @@
+[gd_scene load_steps=5 format=3 uid="uid://don3s64avvg34"]
+
+[ext_resource type="Script" path="res://data/ui/shared/notification/notification.gd" id="1_sskvo"]
+[ext_resource type="Script" path="res://data/ui/top.gd" id="2_ltbjw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61t8k"]
+bg_color = Color(0.133333, 0.133333, 0.133333, 0.74902)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vbywh"]
+
+[node name="notification" type="Panel" node_paths=PackedStringArray("close_button", "confirm_button", "message_label")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_61t8k")
+script = ExtResource("1_sskvo")
+close_button = NodePath("panel/content/top_bar/margin/close")
+confirm_button = NodePath("panel/content/margin/content/buttons/confirm")
+message_label = NodePath("panel/content/margin/content/message")
+
+[node name="panel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -107.5
+offset_right = 125.0
+offset_bottom = 107.5
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+
+[node name="content" type="VBoxContainer" parent="panel"]
+layout_mode = 2
+
+[node name="top_bar" type="HBoxContainer" parent="panel/content"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+script = ExtResource("2_ltbjw")
+target_node = NodePath("../..")
+
+[node name="margin" type="MarginContainer" parent="panel/content/top_bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="title" type="Label" parent="panel/content/top_bar/margin"]
+layout_mode = 2
+text = "Atenção"
+
+[node name="close" type="Button" parent="panel/content/top_bar/margin"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vbywh")
+
+[node name="margin" type="MarginContainer" parent="panel/content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="content" type="VBoxContainer" parent="panel/content/margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="message" type="Label" parent="panel/content/margin/content"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="buttons" type="VBoxContainer" parent="panel/content/margin/content"]
+layout_mode = 2
+
+[node name="confirm" type="Button" parent="panel/content/margin/content/buttons"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vbywh")
+text = "Confirmar"
+
+[connection signal="pressed" from="panel/content/top_bar/margin/close" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="panel/content/margin/content/buttons/confirm" to="." method="_on_confirm_pressed"]

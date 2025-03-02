@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://t8v3t52kyhyw"]
+
+[ext_resource type="Script" path="res://data/ui/menu/character_list/character_list.gd" id="1_qhoti"]
+[ext_resource type="Script" path="res://data/ui/top.gd" id="2_bbbv2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kvaoj"]
+
+[node name="character_list" type="PanelContainer" node_paths=PackedStringArray("slots_location")]
+custom_minimum_size = Vector2(250, 180)
+offset_right = 490.0
+offset_bottom = 264.0
+script = ExtResource("1_qhoti")
+slots_location = NodePath("content/margin/content")
+
+[node name="content" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="top_bar" type="HBoxContainer" parent="content"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+script = ExtResource("2_bbbv2")
+target_node = NodePath("../..")
+
+[node name="margin" type="MarginContainer" parent="content/top_bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="title" type="Label" parent="content/top_bar/margin"]
+layout_mode = 2
+text = "Lista de Peronsangens"
+
+[node name="close" type="Button" parent="content/top_bar/margin"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kvaoj")
+
+[node name="margin" type="MarginContainer" parent="content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="content" type="HBoxContainer" parent="content/margin"]
+layout_mode = 2
+theme_override_constants/separation = 10

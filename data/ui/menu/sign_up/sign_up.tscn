@@ -1,0 +1,88 @@
+[gd_scene load_steps=5 format=3 uid="uid://c07tci1jikxsc"]
+
+[ext_resource type="Script" path="res://data/ui/menu/sign_up/sign_up.gd" id="1_v2c0a"]
+[ext_resource type="Script" path="res://data/ui/top.gd" id="1_w5fk7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kvaoj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pd462"]
+
+[node name="sign_up" type="PanelContainer"]
+custom_minimum_size = Vector2(250, 0)
+offset_right = 250.0
+offset_bottom = 252.0
+script = ExtResource("1_v2c0a")
+
+[node name="content" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="top_bar" type="HBoxContainer" parent="content"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+script = ExtResource("1_w5fk7")
+target_node = NodePath("../..")
+
+[node name="margin" type="MarginContainer" parent="content/top_bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="title" type="Label" parent="content/top_bar/margin"]
+layout_mode = 2
+text = "Cadastrar"
+
+[node name="close" type="Button" parent="content/top_bar/margin"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kvaoj")
+
+[node name="margin" type="MarginContainer" parent="content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="content" type="VBoxContainer" parent="content/margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="inputs" type="VBoxContainer" parent="content/margin/content"]
+layout_mode = 2
+
+[node name="email" type="LineEdit" parent="content/margin/content/inputs"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pd462")
+placeholder_text = "email@email.com.br"
+
+[node name="password" type="LineEdit" parent="content/margin/content/inputs"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pd462")
+placeholder_text = "•••••••"
+secret = true
+
+[node name="repassword" type="LineEdit" parent="content/margin/content/inputs"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pd462")
+placeholder_text = "•••••••"
+secret = true
+
+[node name="buttons" type="VBoxContainer" parent="content/margin/content"]
+layout_mode = 2
+
+[node name="sign_up" type="Button" parent="content/margin/content/buttons"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kvaoj")
+text = "Cadastrar"
+
+[node name="back" type="Button" parent="content/margin/content/buttons"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kvaoj")
+text = "Voltar"

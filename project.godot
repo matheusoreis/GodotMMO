@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 Multiplayer="*res://shared/multiplayer/multiplayer.gd"
 CConstants="*res://client/utils/constants.gd"
 CGlobals="*res://client/utils/globals.gd"
+CNotification="*res://client/utils/notification.gd"
 
 [rendering]
 
