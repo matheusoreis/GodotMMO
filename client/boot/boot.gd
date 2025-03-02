@@ -5,6 +5,7 @@ var _client: Client
 var _handler: Handler
 
 var _handlers: Dictionary = {}
+var _ping_incoming := CPingIncoming.new()
 
 
 func _init() -> void:
@@ -27,7 +28,7 @@ func _process(_delta: float) -> void:
 
 
 func _register_packets() -> void:
-	pass
+	_handlers[Packets.PING] = _ping_incoming
 
 
 func _client_connected() -> void:
@@ -54,4 +55,10 @@ func _received_packed(packed: PackedByteArray) -> void:
 		get_tree(),
 		incoming,
 		_handlers
+	)
+
+
+func _on_button_pressed() -> void:
+	Multiplayer.client.send_data(
+		CPingOutgoing.new()
 	)

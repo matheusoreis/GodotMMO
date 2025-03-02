@@ -82,4 +82,11 @@ offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Button" type="Button" parent="menu"]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Enviar Ping"
+
 [node name="shared" type="CanvasLayer" parent="."]
+
+[connection signal="pressed" from="menu/Button" to="." method="_on_button_pressed"]
