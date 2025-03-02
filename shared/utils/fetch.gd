@@ -36,3 +36,28 @@ func fetch_json(method: HTTPClient.Method, url: String, body: Dictionary = {}, h
 	var status_code = result[1]
 
 	return [OK, status_code, JSON.parse_string(result[2])]
+
+
+func format_errors(response_data: Dictionary) -> Array[String]:
+	var error_messages: Array[String] = []
+
+	if not response_data is Dictionary:
+		error_messages.append("Erro desconhecido no servidor!")
+		return error_messages
+
+	var messages = response_data.get("message", [])
+	var error_type = response_data.get("error", "Erro desconhecido")
+	var status_code = response_data.get("statusCode", 0)
+
+	if messages is Array:
+		for msg in messages:
+			if msg is String:
+				error_messages.append(msg)
+
+	elif messages is String:
+		error_messages.append(messages)
+
+	if error_messages.is_empty():
+		error_messages.append("Erro " + str(status_code) + " - " + error_type)
+
+	return error_messages
