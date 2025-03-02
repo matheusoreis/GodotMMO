@@ -16,7 +16,7 @@ func _ready() -> void:
 	_client.client_connected.connect(_client_connected)
 	_client.client_disconnected.connect(_client_disconnected)
 	_client.client_error.connect(_client_error)
-	_client.client_received_packed.connect(_client_received_packed)
+	_client.received_packed.connect(_received_packed)
 
 	_handler = Handler.new()
 	_register_packets()
@@ -42,7 +42,7 @@ func _client_error(message: String) -> void:
 	print(message)
 
 
-func _client_received_packed(packed: PackedByteArray) -> void:
+func _received_packed(packed: PackedByteArray) -> void:
 	if packed.size() < 2:
 		_client.disconnect_from_server()
 		return

@@ -4,7 +4,7 @@ class_name Client extends Node
 signal client_connected()
 signal client_disconnected(network: NetworkModel)
 signal client_error(message: String)
-signal client_received_packed(packed: PackedByteArray)
+signal received_packed(packed: PackedByteArray)
 
 
 var _socket: ENetConnection
@@ -65,7 +65,7 @@ func _handle_receive(peer: ENetPacketPeer) -> void:
 	if not _network.peer.get_available_packet_count():
 		return
 
-	client_received_packed.emit(
+	received_packed.emit(
 		_network.peer.get_packet()
 	)
 
