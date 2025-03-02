@@ -5,6 +5,7 @@ var _server: Server
 var _handler: Handler
 
 var _handlers: Dictionary = {}
+var _ping_incoming := SPingIncoming.new()
 
 
 func _init() -> void:
@@ -27,7 +28,7 @@ func _process(_delta: float) -> void:
 
 
 func _register_packets() -> void:
-	pass
+	_handlers[Packets.PING] = _ping_incoming
 
 
 func _accepted_connection(connection: ConnectionModel) -> void:
