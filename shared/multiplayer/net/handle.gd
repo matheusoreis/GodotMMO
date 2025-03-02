@@ -1,7 +1,7 @@
 class_name Handler extends RefCounted
 
 
-func handle(tree: SceneTree, incoming: Incoming, handlers: Dictionary, network: NetworkModel = null) -> void:
+func handle(tree: SceneTree, incoming: Incoming, handlers: Dictionary, connection: ConnectionModel = null) -> void:
 	var packet: int = incoming.get_id()
 
 	if handlers.has(packet):
@@ -11,7 +11,7 @@ func handle(tree: SceneTree, incoming: Incoming, handlers: Dictionary, network: 
 			return
 
 		var args: Array = [tree, incoming]
-		if network != null:
-			args.append(network)
+		if connection != null:
+			args.append(connection)
 
 		handler.callv(args)

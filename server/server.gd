@@ -1,20 +1,20 @@
 class_name Server extends Node
 
 
-signal client_connected(network: NetworkModel)
-signal client_disconnected(network: NetworkModel)
+signal accepted_connection(connection: ConnectionModel)
+signal connection_finished(connection: ConnectionModel)
 signal server_error(message: String)
-signal received_packed(network: NetworkModel, packed: PackedByteArray)
+signal received_packed(connection: ConnectionModel, packed: PackedByteArray)
 
 
 var _socket: ENetConnection
-var _networks: Array[NetworkModel] = []
+var _connections: Array[ConnectionModel] = []
 
 
 func start() -> void:
-	_networks.resize(SConstants.max_networks)
+	_connections.resize(SConstants.max_networks)
 	for i in range(SConstants.max_networks):
-		_networks[i] = null
+		_connections[i] = null
 
 	if _socket != null:
 		server_error.emit("O servidor já foi iniciado!")
@@ -55,23 +55,23 @@ func process() -> void:
 			_handle_receive(event[1])
 
 
-func add_network(network: NetworkModel) -> int:
-	var index := _networks.find(null)
+func add_connection(connection: ConnectionModel) -> int:
+	var index := _connections.find(null)
 	if index != -1:
-		_networks[index] = network
+		_connections[index] = connection
 
 	return index
 
 
-func remove_network(id: int) -> void:
-	if id >= 0 and id < _networks.size():
-		_networks[id] = null
+func remove_connection(id: int) -> void:
+	if id >= 0 and id < _connections.size():
+		_connections[id] = null
 
 
-func find_network_by_peer(peer: ENetPacketPeer) -> NetworkModel:
-	for network in _networks:
-		if network != null and network.peer == peer:
-			return network
+func find_connection_by_peer(peer: ENetPacketPeer) -> ConnectionModel:
+	for connection in _connections:
+		if connection != null and connection.peer == peer:
+			return connection
 	return null
 
 
@@ -80,78 +80,78 @@ func _handle_error() -> void:
 
 
 func _handle_connect(peer: ENetPacketPeer) -> void:
-	var network := NetworkModel.new()
-	network.peer = peer
-	network.id = add_network(network)
+	var connection := ConnectionModel.new()
+	connection.peer = peer
+	connection.id = add_connection(connection)
 
-	if network.id == -1:
-		server_error.emit("Servidor cheio! Não há espaço para novos jogadores.")
+	if connection.id == -1:
+		server_error.emit("Servidor cheio! Não há espaço para novas conexões.")
 		return
 
-	client_connected.emit(network)
+	accepted_connection.emit(connection)
 
 
 func _handle_disconnect(peer: ENetPacketPeer) -> void:
-	var network := find_network_by_peer(peer)
-	if network == null:
+	var connection := find_connection_by_peer(peer)
+	if connection == null:
 		return
 
-	client_disconnected.emit(network)
-	remove_network(network.id)
+	connection_finished.emit(connection)
+	remove_connection(connection.id)
 
 
 func _handle_receive(peer: ENetPacketPeer) -> void:
-	var network := find_network_by_peer(peer)
-	if network == null:
+	var connection := find_connection_by_peer(peer)
+	if connection == null:
 		return
 
 	var packed := peer.get_packet()
 	if packed.size() < 2:
-		disconnect_from_server(network)
+		disconnect_from_server(connection)
 		return
 
-	received_packed.emit(network, packed)
+	received_packed.emit(connection, packed)
 
 
-func _validate_network(network: NetworkModel) -> bool:
-	if network.id < 0:
+func _validate_connection(connection: ConnectionModel) -> bool:
+	if connection.id < 0:
 		server_error.emit("Tentativa de expulsar uma conexão inexistente! ID inválido.")
 		return false
 
-	if network.id >= _networks.size():
+	if connection.id >= _connections.size():
 		server_error.emit("Tentativa de expulsar uma conexão inexistente! ID fora do limite.")
 		return false
 
-	if _networks[network.id] != network:
+	if _connections[connection.id] != connection:
 		server_error.emit("Tentativa de expulsar uma conexão inexistente! Network não corresponde.")
 		return false
 
 	return true
 
 
-func disconnect_from_server(network: NetworkModel) -> void:
-	if not _validate_network(network):
+func disconnect_from_server(connection: ConnectionModel) -> void:
+	if not _validate_connection(connection):
 		return
 
-	network.peer.peer_disconnect_later()
+	connection.peer.peer_disconnect_later()
 
 
-func send_to(network: NetworkModel, outgoing: Outgoing, reliable: bool = true, channel: int = 0) -> void:
-	if not _validate_network(network):
+func send_to(connection: ConnectionModel, outgoing: Outgoing, reliable: bool = true, channel: int = 0) -> void:
+	if not _validate_connection(connection):
 		return
 
 	var packed := outgoing.get_buffer() as PackedByteArray
-	network.peer.send(channel, packed, int(reliable))
+	connection.peer.send(channel, packed, int(reliable))
 
 
 func send_to_all(outgoing: Outgoing, reliable: bool = true, channel: int = 0) -> void:
-	for network in _networks:
-		send_to(network, outgoing, reliable, channel)
+	for connection in _connections:
+		send_to(connection, outgoing, reliable, channel)
 
 
-func send_to_all_except(outgoing: Outgoing, except_network: NetworkModel, reliable: bool = true, channel: int = 0) -> void:
-	for network in _networks:
-		if network == except_network:
+func send_to_all_except(outgoing: Outgoing, except_connection: ConnectionModel, reliable: bool = true, channel: int = 0) -> void:
+	for connection in _connections:
+		if connection == except_connection:
 			continue
 
-		send_to(network, outgoing, reliable, channel)
+		send_to(connection, outgoing, reliable, channel)
