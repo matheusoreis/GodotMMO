@@ -42,6 +42,9 @@ func _handle_error() -> void:
 
 
 func _handle_connect(peer: ENetPacketPeer) -> void:
+	if not client_is_connected() or _network.peer != peer:
+		return
+
 	client_connected.emit()
 
 
