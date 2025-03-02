@@ -1,0 +1,110 @@
+class_name Client extends Node
+
+
+signal client_connected()
+signal client_disconnected(network: NetworkModel)
+signal client_error(message: String)
+signal client_received_packed(packed: PackedByteArray)
+
+
+var _socket: ENetConnection
+var _network: NetworkModel
+
+
+func client_is_connected() -> bool:
+	return _network != null and _network.peer != null
+
+
+func process() -> void:
+	if not client_is_connected():
+		return
+
+	var event = _socket.service()
+	if event.size() == 0:
+		return
+
+	match event[0]:
+		ENetConnection.EventType.EVENT_ERROR:
+			_handle_error()
+
+		ENetConnection.EventType.EVENT_CONNECT:
+			_handle_connect(event[1])
+
+		ENetConnection.EventType.EVENT_DISCONNECT:
+			_handle_disconnect(event[1])
+
+		ENetConnection.EventType.EVENT_RECEIVE:
+			_handle_receive(event[1])
+
+
+func _handle_error() -> void:
+	client_error.emit("Erro ao tentar iniciar o cliente!")
+
+
+func _handle_connect(peer: ENetPacketPeer) -> void:
+	client_connected.emit()
+
+
+func _handle_disconnect(peer: ENetPacketPeer) -> void:
+	if not client_is_connected() or _network.peer != peer:
+		client_error.emit("Você não está conectado para se desconectar!")
+		return
+
+	client_disconnected.emit(_network)
+	_network = null
+
+
+func _handle_receive(peer: ENetPacketPeer) -> void:
+	if not client_is_connected():
+		client_error.emit("Você não está conectado para receber dados!")
+		return
+
+	if not _network.peer.get_available_packet_count():
+		return
+
+	client_received_packed.emit(
+		_network.peer.get_packet()
+	)
+
+
+func connect_to_server() -> void:
+	if client_is_connected():
+		client_error.emit("Já está conectado a um servidor.")
+		return
+
+	_socket = ENetConnection.new()
+	var host: String = CConstants.host
+	var port: int = CConstants.port
+
+	var error := _socket.create_host()
+	if error != OK:
+		client_error.emit("Falha ao iniciar o cliente! Erro: %d" % error)
+		_socket = null
+		return
+
+	var network: NetworkModel = NetworkModel.new()
+	network.peer = _socket.connect_to_host(host, port)
+
+	if network.peer == null:
+		client_error.emit("Falha ao conectar ao servidor em %s:%d" % [host, port])
+		return
+
+	_network = network
+
+
+func disconnect_from_server() -> void:
+	if not client_is_connected():
+		client_error.emit("Não há conexão ativa para desconectar.")
+		return
+
+	_network.peer.peer_disconnect_later()
+
+
+func send_data(outgoing: Outgoing, reliable: bool = true, channel: int = 0) -> void:
+	if not client_is_connected():
+		client_error.emit("Tentativa de enviar dados sem conexão ativa!")
+		return
+
+	var error := _network.peer.send(channel, outgoing.get_buffer(), int(reliable))
+	if error != OK:
+		client_error.emit("Falha ao enviar a mensagem para o servidor! Erro: %d" % error)

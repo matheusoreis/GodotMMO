@@ -14,6 +14,12 @@ config/name="Godot MMO"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Multiplayer="*res://shared/multiplayer/multiplayer.gd"
+CConstants="*res://client/utils/constants.gd"
+CGlobals="*res://client/utils/globals.gd"
+
 [rendering]
 
 renderer/rendering_method="mobile"

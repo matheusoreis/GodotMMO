@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4wg1mirg8837"]
+
+[ext_resource type="Script" path="res://shared/boot/boot.gd" id="1_d7yvl"]
+
+[node name="boot" type="Node2D"]
+script = ExtResource("1_d7yvl")
+
+[node name="center" type="CenterContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="content" type="VBoxContainer" parent="center"]
+layout_mode = 2
+
+[node name="client" type="Button" parent="center/content"]
+layout_mode = 2
+
+[node name="server" type="Button" parent="center/content"]
+layout_mode = 2
+
+[connection signal="pressed" from="center/content/client" to="." method="_on_client_pressed"]
+[connection signal="pressed" from="center/content/server" to="." method="_on_server_pressed"]

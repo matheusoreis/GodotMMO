@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxty3338oiv6j"]
+
+[ext_resource type="Script" path="res://client/boot/boot.gd" id="1_evjpj"]
+
+[node name="boot" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_evjpj")
