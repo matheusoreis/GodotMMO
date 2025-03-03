@@ -4,8 +4,6 @@ extends Control
 var _client: Client
 var _handler: Handler
 
-var _ping := CPing.new()
-
 
 func _init() -> void:
 	_client = Multiplayer.client
@@ -19,7 +17,7 @@ func _ready() -> void:
 	_client.received_packed.connect(_received_packed)
 
 	_handler = Handler.new([
-		_ping
+		CPing.new()
 	])
 
 
