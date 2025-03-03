@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://don3s64avvg34"]
 
-[ext_resource type="Script" path="res://data/ui/shared/notification/notification.gd" id="1_sskvo"]
-[ext_resource type="Script" path="res://data/ui/top.gd" id="2_ltbjw"]
+[ext_resource type="Script" uid="uid://c4bruhmmu5bbg" path="res://data/ui/shared/notification/notification.gd" id="1_sskvo"]
+[ext_resource type="Script" uid="uid://ci6vs0ojcfiv4" path="res://data/ui/top.gd" id="2_ltbjw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61t8k"]
 bg_color = Color(0.133333, 0.133333, 0.133333, 0.74902)

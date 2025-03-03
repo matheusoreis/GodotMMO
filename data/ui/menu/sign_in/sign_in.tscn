@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://diwjlpst5v714"]
 
-[ext_resource type="Script" path="res://data/ui/top.gd" id="1_epynf"]
-[ext_resource type="Script" path="res://data/ui/menu/sign_in/sign_in.gd" id="1_rukkk"]
+[ext_resource type="Script" uid="uid://ci6vs0ojcfiv4" path="res://data/ui/top.gd" id="1_epynf"]
+[ext_resource type="Script" uid="uid://dxm8q6nacgtii" path="res://data/ui/menu/sign_in/sign_in.gd" id="1_rukkk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vbywh"]
 

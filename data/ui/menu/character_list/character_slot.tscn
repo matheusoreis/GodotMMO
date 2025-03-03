@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b1o4idle68k4x"]
 
-[ext_resource type="Script" path="res://data/ui/menu/character_list/character_slot.gd" id="1_e7tix"]
+[ext_resource type="Script" uid="uid://de5mehd71yq0n" path="res://data/ui/menu/character_list/character_slot.gd" id="1_e7tix"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_my3hm"]
 

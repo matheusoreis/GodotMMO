@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://t8v3t52kyhyw"]
 
-[ext_resource type="Script" path="res://data/ui/menu/character_list/character_list.gd" id="1_qhoti"]
-[ext_resource type="Script" path="res://data/ui/top.gd" id="2_bbbv2"]
+[ext_resource type="Script" uid="uid://cblsjabi4hceb" path="res://data/ui/menu/character_list/character_list.gd" id="1_qhoti"]
+[ext_resource type="Script" uid="uid://ci6vs0ojcfiv4" path="res://data/ui/top.gd" id="2_bbbv2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kvaoj"]
 

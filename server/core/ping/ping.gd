@@ -2,7 +2,7 @@ class_name SPing extends Packet
 
 
 func _init():
-	header = 0
+	header = Packets.PING
 
 
 func serialize(writer: StreamPeerBuffer) -> void:

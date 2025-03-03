@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dfmml5byoke6g"]
 
-[ext_resource type="Script" path="res://data/ui/menu/character_list/create_slot.gd" id="1_1w63o"]
+[ext_resource type="Script" uid="uid://ccxum2k4ygjq2" path="res://data/ui/menu/character_list/create_slot.gd" id="1_1w63o"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_my3hm"]
 
