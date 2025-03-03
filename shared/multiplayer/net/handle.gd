@@ -1,22 +1,29 @@
 class_name Handler extends RefCounted
 
 
-func handle(tree: SceneTree, incoming: Incoming, handlers: Dictionary, connection: ConnectionModel = null) -> void:
-	var packet: int = incoming.get_id()
+var packets: Dictionary = {}
 
-	if not handlers.has(packet):
+
+func _init(packets_registry: Array[Packet] = []) -> void:
+	for packet in packets_registry:
+		packets[packet.header] = packet
+
+
+func handle(tree: SceneTree, packed: PackedByteArray, connection = null) -> void:
+	if packed.size() < 2:
 		return
 
-	var handler_obj: RefCounted = handlers[packet]
-	if not (handler_obj is RefCounted and handler_obj.has_method("handle")):
+	var reader = StreamPeerBuffer.new()
+	reader.data_array = packed
+	reader.seek(0)
+
+	var header = reader.get_u16()
+	if not packets.has(header):
 		return
 
-	var args: Array = [tree, incoming]
+	var packet: Packet = packets[header]
+	if packet == null:
+		return
 
-	if connection != null:
-		args.append(connection)
-
-	var expected_arg_count: int = handler_obj.get_method_argument_count("handle")
-	var final_args: Array = args.slice(0, expected_arg_count)
-
-	handler_obj.callv("handle", final_args)
+	packet.deserialize(reader)
+	packet.handle(tree, connection)

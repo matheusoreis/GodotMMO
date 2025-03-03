@@ -136,22 +136,24 @@ func disconnect_from_server(connection: ConnectionModel) -> void:
 	connection.peer.peer_disconnect_later()
 
 
-func send_to(connection: ConnectionModel, outgoing: Outgoing, channel: int = 0) -> void:
+func send_to(connection: ConnectionModel, packet: Packet, channel: int = 0) -> void:
 	if not _validate_connection(connection):
 		return
 
-	var packed := outgoing.get_buffer() as PackedByteArray
+	var writer := StreamPeerBuffer.new()
+	packet.serialize(writer)
+
+	var packed := writer.data_array
 	connection.peer.send(channel, packed, ENetPacketPeer.FLAG_RELIABLE)
 
 
-func send_to_all(outgoing: Outgoing, channel: int = 0) -> void:
+func send_to_all(packet: Packet, channel: int = 0) -> void:
 	for connection in _connections:
-		send_to(connection, outgoing, channel)
+		send_to(connection, packet, channel)
 
 
-func send_to_all_except(outgoing: Outgoing, except_connection: ConnectionModel, channel: int = 0) -> void:
+func send_to_all_except(packet: Packet, except_connection: ConnectionModel, channel: int = 0) -> void:
 	for connection in _connections:
 		if connection == except_connection:
 			continue
-
-		send_to(connection, outgoing, channel)
+		send_to(connection, packet, channel)
