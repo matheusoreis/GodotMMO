@@ -51,6 +51,7 @@ func _on_sign_up_pressed() -> void:
 		return
 
 	sign_up_button.disabled = true
+	back_button.disabled = true
 	#Multiplayer.client.send(
 		#CSignUpOutgoing.new(
 			#email_line.text,

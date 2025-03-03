@@ -6,26 +6,18 @@ class_name CreateCharacter extends PanelContainer
 @export var male_textures: Array[Texture2D] = []
 @export var famale_textures: Array[Texture2D] = []
 
-@export_subgroup('Top Bar')
-@export var close_button: Button
-
 @export_subgroup("Line Edits")
 @export var name_line: LineEdit
 
-var is_male: int = 1
-@export_subgroup("Gender")
-@export var famale_button: Button
-@export var male_button: Button
-
-var current_texture_index: int = 0
 @export_subgroup("Sprite")
 @export var texture_area: Sprite2D
-@export var next_skin_button: Button
-@export var previous_skin_button: Button
 
 @export_subgroup("Buttons")
 @export var confirm_button: Button
 @export var back_button: Button
+
+var is_male: int = 1
+var current_texture_index: int = 0
 
 
 func _ready() -> void:
@@ -69,6 +61,10 @@ func _on_confirm_pressed() -> void:
 	var texture_path := selected_texture.resource_path as String
 	var texture_file_name_extension := texture_path.get_file() as String
 	var texture_file_name := texture_file_name_extension.get_basename() as String
+	print(texture_file_name)
+
+	confirm_button.disabled = true
+	back_button.disabled = true
 
 	#Multiplayer.client.send(
 		#CCreateCharacterOutgoing.new(

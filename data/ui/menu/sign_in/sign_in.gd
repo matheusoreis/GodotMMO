@@ -1,5 +1,6 @@
 class_name SignIn extends PanelContainer
 
+
 @export_group("Nodes")
 @export_subgroup('Top Bar')
 @export var close_button: Button
@@ -43,6 +44,7 @@ func _on_sign_in_pressed() -> void:
 		return
 
 	sign_in_button.disabled = true
+	sign_up_button.disabled = true
 	#Multiplayer.client.send(
 		#CSignInOutgoing.new(
 			#email_line.text,

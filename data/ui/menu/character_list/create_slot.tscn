@@ -4,10 +4,9 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_my3hm"]
 
-[node name="create_slot" type="PanelContainer" node_paths=PackedStringArray("_create_button")]
+[node name="create_slot" type="PanelContainer"]
 custom_minimum_size = Vector2(150, 0)
 script = ExtResource("1_1w63o")
-_create_button = NodePath("content/create")
 
 [node name="content" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 200)

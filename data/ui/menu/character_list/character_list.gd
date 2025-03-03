@@ -2,9 +2,6 @@ class_name CharacterList extends PanelContainer
 
 
 @export_group("Nodes")
-@export_subgroup('Top Bar')
-@export var close_button: Button
-
 @export_subgroup('Content')
 @export var slots_location: HBoxContainer
 
