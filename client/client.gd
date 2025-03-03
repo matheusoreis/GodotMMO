@@ -103,7 +103,7 @@ func disconnect_from_server() -> void:
 	_connection.peer.peer_disconnect_later()
 
 
-func send_data(packet: Packet, channel: int = 0) -> void:
+func send(packet: Packet, channel: int = 0) -> void:
 	if not client_is_connected():
 		client_error.emit("Tentativa de enviar dados sem conexão ativa!")
 		return
