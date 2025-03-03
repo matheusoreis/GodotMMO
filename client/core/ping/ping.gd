@@ -2,7 +2,7 @@ class_name CPing extends Packet
 
 
 func _init():
-	header = 0
+	header = Packets.PING
 
 
 func serialize(writer: StreamPeerBuffer) -> void:
@@ -14,7 +14,7 @@ func deserialize(reader: StreamPeerBuffer) -> void:
 	super.deserialize(reader)
 
 
-func handle(tree: SceneTree, connection = null) -> void:
+func handle(_tree: SceneTree, _connection = null) -> void:
 	var latency = round(
 		Time.get_ticks_msec() - CGlobals.ping_sender_time
 	)

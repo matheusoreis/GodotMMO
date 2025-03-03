@@ -1,16 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://t8v3t52kyhyw"]
 
-[ext_resource type="Script" path="res://data/ui/menu/character_list/character_list.gd" id="1_qhoti"]
-[ext_resource type="Script" path="res://data/ui/top.gd" id="2_bbbv2"]
+[ext_resource type="Script" uid="uid://cblsjabi4hceb" path="res://data/ui/menu/character_list/character_list.gd" id="1_qhoti"]
+[ext_resource type="Script" uid="uid://ci6vs0ojcfiv4" path="res://data/ui/top.gd" id="2_bbbv2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kvaoj"]
 
-[node name="character_list" type="PanelContainer" node_paths=PackedStringArray("close_button", "slots_location")]
+[node name="character_list" type="PanelContainer" node_paths=PackedStringArray("slots_location")]
 custom_minimum_size = Vector2(250, 180)
 offset_right = 490.0
 offset_bottom = 264.0
 script = ExtResource("1_qhoti")
-close_button = NodePath("content/top_bar/margin/close")
 slots_location = NodePath("content/margin/content")
 
 [node name="content" type="VBoxContainer" parent="."]

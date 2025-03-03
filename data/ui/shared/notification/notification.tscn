@@ -1,14 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://don3s64avvg34"]
 
-[ext_resource type="Script" path="res://data/ui/shared/notification/notification.gd" id="1_sskvo"]
-[ext_resource type="Script" path="res://data/ui/top.gd" id="2_ltbjw"]
+[ext_resource type="Script" uid="uid://c4bruhmmu5bbg" path="res://data/ui/shared/notification/notification.gd" id="1_sskvo"]
+[ext_resource type="Script" uid="uid://ci6vs0ojcfiv4" path="res://data/ui/top.gd" id="2_ltbjw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61t8k"]
 bg_color = Color(0.133333, 0.133333, 0.133333, 0.74902)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vbywh"]
 
-[node name="notification" type="Panel" node_paths=PackedStringArray("close_button", "confirm_button", "message_label")]
+[node name="notification" type="Panel" node_paths=PackedStringArray("message_label")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,8 +16,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_61t8k")
 script = ExtResource("1_sskvo")
-close_button = NodePath("panel/content/top_bar/margin/close")
-confirm_button = NodePath("panel/content/margin/content/buttons/confirm")
 message_label = NodePath("panel/content/margin/content/message")
 
 [node name="panel" type="PanelContainer" parent="."]

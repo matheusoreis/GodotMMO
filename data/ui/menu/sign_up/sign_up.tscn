@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c07tci1jikxsc"]
 
-[ext_resource type="Script" path="res://data/ui/menu/sign_up/sign_up.gd" id="1_v2c0a"]
-[ext_resource type="Script" path="res://data/ui/top.gd" id="1_w5fk7"]
+[ext_resource type="Script" uid="uid://cwbp1p1o7gbdg" path="res://data/ui/menu/sign_up/sign_up.gd" id="1_v2c0a"]
+[ext_resource type="Script" uid="uid://ci6vs0ojcfiv4" path="res://data/ui/top.gd" id="1_w5fk7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kvaoj"]
 
