@@ -2,9 +2,6 @@ class_name NotificationUI extends Panel
 
 
 var message: String = ""
-
-@export var close_button: Button
-@export var confirm_button: Button
 @export var message_label: Label
 
 
