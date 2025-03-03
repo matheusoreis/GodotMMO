@@ -14,7 +14,7 @@ func deserialize(reader: StreamPeerBuffer) -> void:
 	super.deserialize(reader)
 
 
-func handle(tree: SceneTree, _connection = null) -> void:
+func handle(_tree: SceneTree, _connection = null) -> void:
 	var latency = round(
 		Time.get_ticks_msec() - CGlobals.ping_sender_time
 	)

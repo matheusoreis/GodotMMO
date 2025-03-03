@@ -7,9 +7,6 @@ class_name CharacterListSlot extends PanelContainer
 @export_subgroup('Sprites')
 @export var _texture_sprite: Sprite2D
 
-@export_subgroup('Buttons')
-@export var _select_button: Button
-@export var _delete_button: Button
 
 var id: int:
 	set(value):
