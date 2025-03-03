@@ -43,5 +43,5 @@ func _received_packed(packed: PackedByteArray) -> void:
 
 func _on_button_pressed() -> void:
 	Multiplayer.client.send(
-		CPing.new()
+		CPing.new(), 1, false
 	)

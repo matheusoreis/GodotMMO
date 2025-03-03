@@ -103,7 +103,7 @@ func disconnect_from_server() -> void:
 	_connection.peer.peer_disconnect_later()
 
 
-func send(packet: Packet, channel: int = 0) -> void:
+func send(packet: Packet, channel: int = 0, reliable: bool = true) -> void:
 	if not client_is_connected():
 		client_error.emit("Tentativa de enviar dados sem conexão ativa!")
 		return
@@ -111,7 +111,11 @@ func send(packet: Packet, channel: int = 0) -> void:
 	var writer := StreamPeerBuffer.new()
 	packet.serialize(writer)
 
+	var flag = 1
+	if not reliable:
+		flag = 2
+
 	var packed := writer.data_array
-	var error := _connection.peer.send(channel, packed, ENetPacketPeer.FLAG_RELIABLE)
+	var error := _connection.peer.send(channel, packed, flag)
 	if error != OK:
 		client_error.emit("Falha ao enviar o pacote para o servidor! Erro: %d" % error)

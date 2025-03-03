@@ -24,7 +24,7 @@ func start() -> void:
 	var host: String = "0.0.0.0"
 	var port: int = SConstants.port
 
-	var error := _socket.create_host_bound(host, port)
+	var error := _socket.create_host_bound(host, port, SConstants.max_networks + 1)
 	if error != OK:
 		server_error.emit("Falha ao iniciar o servidor! Erro: %d" % error)
 		_socket = null
@@ -136,15 +136,19 @@ func disconnect_from_server(connection: ConnectionModel) -> void:
 	connection.peer.peer_disconnect_later()
 
 
-func send_to(connection: ConnectionModel, packet: Packet, channel: int = 0) -> void:
+func send_to(connection: ConnectionModel, packet: Packet, channel: int = 0, reliable: bool = true) -> void:
 	if not _validate_connection(connection):
 		return
 
 	var writer := StreamPeerBuffer.new()
 	packet.serialize(writer)
 
+	var flag = 1
+	if not reliable:
+		flag = 2
+
 	var packed := writer.data_array
-	connection.peer.send(channel, packed, ENetPacketPeer.FLAG_RELIABLE)
+	connection.peer.send(channel, packed, reliable)
 
 
 func send_to_all(packet: Packet, channel: int = 0) -> void:
