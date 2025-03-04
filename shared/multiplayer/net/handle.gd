@@ -25,5 +25,6 @@ func handle(tree: SceneTree, packed: PackedByteArray, id: int = -1) -> void:
 	if packet == null:
 		return
 
+
 	packet.deserialize(reader)
 	packet.handle(tree, id)

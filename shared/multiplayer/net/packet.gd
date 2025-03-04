@@ -9,8 +9,8 @@ func serialize(writer: StreamPeerBuffer) -> void:
 
 
 func deserialize(reader: StreamPeerBuffer) -> void:
-	header = reader.get_u16()
+	pass
 
 
 func handle(_tree: SceneTree, id: int = -1) -> void:
-	return
+	pass
