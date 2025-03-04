@@ -1,119 +1,48 @@
-class_name Client extends Node
+extends Control
 
 
-signal client_connected()
-signal client_disconnected(connection: ConnectionModel)
-signal client_error(message: String)
-signal received_packed(packed: PackedByteArray)
+var _client: Client
+var _handler: Handler
 
 
-var _socket: ENetConnection
-var _peer: ENetPacketPeer
+func _init() -> void:
+	_client = Multiplayer.client
+	_client.connect_to_server()
 
 
-func client_is_connected() -> bool:
-	return _peer != null
+func _ready() -> void:
+	_client.client_connected.connect(_client_connected)
+	_client.client_disconnected.connect(_client_disconnected)
+	_client.client_error.connect(_client_error)
+	_client.received_packed.connect(_received_packed)
+
+	_handler = Handler.new([
+		CPing.new(),
+		CSignIn.new()
+	])
 
 
-func connect_to_server() -> void:
-	if client_is_connected():
-		client_error.emit("Já está conectado a um servidor.")
-		return
-
-	_socket = ENetConnection.new()
-	var host: String = CConstants.host
-	var port: int = CConstants.port
-
-	var error := _socket.create_host()
-	if error != OK:
-		client_error.emit("Falha ao iniciar o cliente! Erro: %d" % error)
-		_socket = null
-		return
-
-	_peer = _socket.connect_to_host(host, port)
-
-	if _peer == null:
-		client_error.emit("Falha ao conectar ao servidor em %s:%d" % [host, port])
-		return
+func _process(_delta: float) -> void:
+	_client.process()
 
 
-func process() -> void:
-	if not client_is_connected():
-		return
-
-	var event = _socket.service()
-	if event.size() == 0:
-		return
-
-	match event[0]:
-		ENetConnection.EventType.EVENT_ERROR:
-			_handle_error()
-
-		ENetConnection.EventType.EVENT_CONNECT:
-			_handle_connect(event[1])
-
-		ENetConnection.EventType.EVENT_DISCONNECT:
-			_handle_disconnect(event[1])
-
-		ENetConnection.EventType.EVENT_RECEIVE:
-			_handle_receive(event[1])
+func _client_connected() -> void:
+	print("Sucesso ao se conectar ao servidor!")
 
 
-func _handle_error() -> void:
-	client_error.emit("Erro ao tentar iniciar o cliente!")
+func _client_disconnected(network: ConnectionModel) -> void:
+	print("Cliente desconectado do servidor, peer: ", network.peer)
 
 
-func _handle_connect(peer: ENetPacketPeer) -> void:
-	if not client_is_connected() or _peer != peer:
-		return
-
-	client_connected.emit()
+func _client_error(message: String) -> void:
+	print(message)
 
 
-func _handle_disconnect(peer: ENetPacketPeer) -> void:
-	if not client_is_connected() or _peer != peer:
-		client_error.emit("Você não está conectado para se desconectar!")
-		return
-
-	client_disconnected.emit(peer)
+func _received_packed(packed: PackedByteArray) -> void:
+	_handler.handle(get_tree(), packed)
 
 
-func _handle_receive(peer: ENetPacketPeer) -> void:
-	if not client_is_connected():
-		client_error.emit("Você não está conectado para receber dados!")
-		return
-
-	if _peer != peer:
-		client_error.emit("Recebendo dados de um peer inesperado!")
-		return
-
-	if not _peer.get_available_packet_count():
-		return
-
-	received_packed.emit(
-		_peer.get_packet()
+func _on_button_pressed() -> void:
+	Multiplayer.client.send(
+		CPing.new(), 1, false
 	)
-
-
-func disconnect_from_server() -> void:
-	if not client_is_connected():
-		client_error.emit("Não há conexão ativa para desconectar.")
-		return
-
-	_peer.peer_disconnect_later()
-
-
-func send(packet: Packet, channel: int = 0, reliable: bool = true) -> void:
-	if not client_is_connected():
-		client_error.emit("Tentativa de enviar dados sem conexão ativa!")
-		return
-
-	var writer := StreamPeerBuffer.new()
-	packet.serialize(writer)
-
-	var packed := writer.data_array
-	var flag = ENetPacketPeer.FLAG_RELIABLE if reliable else ENetPacketPeer.FLAG_UNSEQUENCED
-
-	var error := _peer.send(channel, packed, flag)
-	if error != OK:
-		client_error.emit("Falha ao enviar o pacote para o servidor! Erro: %d" % error)

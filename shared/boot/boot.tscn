@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://c4wg1mirg8837"]
 
 [ext_resource type="Script" uid="uid://0jufsxxqa4a7" path="res://shared/boot/boot.gd" id="1_d7yvl"]
-[ext_resource type="PackedScene" uid="uid://dxty3338oiv6j" path="res://client/boot/boot.tscn" id="2_ptlcm"]
-[ext_resource type="PackedScene" uid="uid://befbyygcdu5pm" path="res://server/boot/boot.tscn" id="3_rfnrx"]
+[ext_resource type="PackedScene" uid="uid://dxty3338oiv6j" path="res://client/client.tscn" id="2_ptlcm"]
+[ext_resource type="PackedScene" uid="uid://befbyygcdu5pm" path="res://server/server.tscn" id="3_rfnrx"]
 
 [node name="boot" type="Control"]
 layout_mode = 3

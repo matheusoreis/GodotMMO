@@ -45,13 +45,14 @@ func _on_sign_in_pressed() -> void:
 
 	sign_in_button.disabled = true
 	sign_up_button.disabled = true
-	#Multiplayer.client.send(
-		#CSignInOutgoing.new(
-			#email_line.text,
-			#password_line.text
-		#)
-	#)
 
+	var ping := CSignIn.new()
+	ping.email = email_line.text
+	ping.password = password_line.text
+
+	Multiplayer.client.send(
+		ping
+	)
 
 
 func _on_sign_up_pressed() -> void:

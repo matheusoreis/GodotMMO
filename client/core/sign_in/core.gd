@@ -1,18 +1,16 @@
 class_name CSignIn extends Packet
 
 
-var _email: String = ''
-var _password: String = ''
+var email: String = ''
+var password: String = ''
 
 var _contains_error: bool = false
 var _errors_size: int = -1
 var _errors: Array[String] = []
 
 
-func _init(email: String, password: String):
+func _init():
 	header = Packets.SIGN_IN
-	_email = email
-	_password = password
 
 
 func serialize(writer: StreamPeerBuffer) -> void:
@@ -22,8 +20,8 @@ func serialize(writer: StreamPeerBuffer) -> void:
 	writer.put_u16(CConstants.minor_version)
 	writer.put_u16(CConstants.revision_version)
 
-	writer.put_utf8_string(_email)
-	writer.put_utf8_string(_password)
+	writer.put_utf8_string(email)
+	writer.put_utf8_string(password)
 
 
 func deserialize(reader: StreamPeerBuffer) -> void:

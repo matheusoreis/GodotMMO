@@ -47,11 +47,8 @@ func handle(_tree: SceneTree, id: int = -1) -> void:
 	if not _check_client_version():
 		errors.append("O seu cliente está desatualizado!")
 
-	user.database_id = 1
-	Multiplayer.server.send_to(id, SSignIn.new())
+	Multiplayer.server.send_to(id, self)
 
 
 func _check_client_version() -> bool:
-	return (major_version == SConstants.major_version and
-			minor_version == SConstants.minor_version and
-			revision_version == SConstants.revision_version)
+	return major_version == SConstants.major_version and minor_version == SConstants.minor_version and revision_version == SConstants.revision_version
