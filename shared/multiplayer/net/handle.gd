@@ -9,7 +9,7 @@ func _init(packets_registry: Array[Packet] = []) -> void:
 		packets[packet.header] = packet
 
 
-func handle(tree: SceneTree, packed: PackedByteArray, connection = null) -> void:
+func handle(tree: SceneTree, packed: PackedByteArray, id: int = -1) -> void:
 	if packed.size() < 2:
 		return
 
@@ -26,4 +26,4 @@ func handle(tree: SceneTree, packed: PackedByteArray, connection = null) -> void
 		return
 
 	packet.deserialize(reader)
-	packet.handle(tree, connection)
+	packet.handle(tree, id)

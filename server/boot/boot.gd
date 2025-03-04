@@ -37,5 +37,5 @@ func _server_error(message: String) -> void:
 	print_debug("Erro no servidor, erro: " + message)
 
 
-func _received_packed(connection: ConnectionModel, packed: PackedByteArray) -> void:
-	_handler.handle(get_tree(), packed, connection)
+func _received_packed(id: int, packed: PackedByteArray) -> void:
+	_handler.handle(get_tree(), packed, id)

@@ -8,11 +8,11 @@ signal received_packed(packed: PackedByteArray)
 
 
 var _socket: ENetConnection
-var _connection: ConnectionModel
+var _peer: ENetPacketPeer
 
 
 func client_is_connected() -> bool:
-	return _connection != null and _connection.peer != null
+	return _peer != null
 
 
 func connect_to_server() -> void:
@@ -30,14 +30,11 @@ func connect_to_server() -> void:
 		_socket = null
 		return
 
-	var connection: ConnectionModel = ConnectionModel.new()
-	connection.peer = _socket.connect_to_host(host, port)
+	_peer = _socket.connect_to_host(host, port)
 
-	if connection.peer == null:
+	if _peer == null:
 		client_error.emit("Falha ao conectar ao servidor em %s:%d" % [host, port])
 		return
-
-	_connection = connection
 
 
 func process() -> void:
@@ -67,19 +64,18 @@ func _handle_error() -> void:
 
 
 func _handle_connect(peer: ENetPacketPeer) -> void:
-	if not client_is_connected() or _connection.peer != peer:
+	if not client_is_connected() or _peer != peer:
 		return
 
 	client_connected.emit()
 
 
 func _handle_disconnect(peer: ENetPacketPeer) -> void:
-	if not client_is_connected() or _connection.peer != peer:
+	if not client_is_connected() or _peer != peer:
 		client_error.emit("Você não está conectado para se desconectar!")
 		return
 
-	client_disconnected.emit(_connection)
-	_connection = null
+	client_disconnected.emit(peer)
 
 
 func _handle_receive(peer: ENetPacketPeer) -> void:
@@ -87,11 +83,15 @@ func _handle_receive(peer: ENetPacketPeer) -> void:
 		client_error.emit("Você não está conectado para receber dados!")
 		return
 
-	if not _connection.peer.get_available_packet_count():
+	if _peer != peer:
+		client_error.emit("Recebendo dados de um peer inesperado!")
+		return
+
+	if not _peer.get_available_packet_count():
 		return
 
 	received_packed.emit(
-		_connection.peer.get_packet()
+		_peer.get_packet()
 	)
 
 
@@ -100,7 +100,7 @@ func disconnect_from_server() -> void:
 		client_error.emit("Não há conexão ativa para desconectar.")
 		return
 
-	_connection.peer.peer_disconnect_later()
+	_peer.peer_disconnect_later()
 
 
 func send(packet: Packet, channel: int = 0, reliable: bool = true) -> void:
@@ -111,11 +111,9 @@ func send(packet: Packet, channel: int = 0, reliable: bool = true) -> void:
 	var writer := StreamPeerBuffer.new()
 	packet.serialize(writer)
 
-	var flag = 1
-	if not reliable:
-		flag = 2
-
 	var packed := writer.data_array
-	var error := _connection.peer.send(channel, packed, flag)
+	var flag = ENetPacketPeer.FLAG_RELIABLE if reliable else ENetPacketPeer.FLAG_UNSEQUENCED
+
+	var error := _peer.send(channel, packed, flag)
 	if error != OK:
 		client_error.emit("Falha ao enviar o pacote para o servidor! Erro: %d" % error)

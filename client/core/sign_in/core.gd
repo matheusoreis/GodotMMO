@@ -40,7 +40,7 @@ func deserialize(reader: StreamPeerBuffer) -> void:
 		_errors.append(reader.get_utf8_string())
 
 
-func handle(_tree: SceneTree, connection: ConnectionModel = null) -> void:
+func handle(_tree: SceneTree, _id: int = -1) -> void:
 	var sign_in_ui := CGlobals.menu_interface.get_interface("sign_in") as SignIn
 	sign_in_ui.sign_in_button.disabled = false
 	sign_in_ui.sign_up_button.disabled = false

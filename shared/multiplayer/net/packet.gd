@@ -12,5 +12,5 @@ func deserialize(reader: StreamPeerBuffer) -> void:
 	header = reader.get_u16()
 
 
-func handle(_tree: SceneTree, _connection = null) -> void:
+func handle(_tree: SceneTree, id: int = -1) -> void:
 	return

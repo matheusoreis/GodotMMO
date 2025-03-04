@@ -40,15 +40,15 @@ func deserialize(reader: StreamPeerBuffer) -> void:
 	password = reader.get_utf8_string()
 
 
-func handle(_tree: SceneTree, connection: ConnectionModel = null) -> void:
-	if connection == null:
+func handle(_tree: SceneTree, id: int = -1) -> void:
+	if id == -1:
 		return
 
 	if not _check_client_version():
 		errors.append("O seu cliente está desatualizado!")
 
 	user.database_id = 1
-	Multiplayer.server.send_to(connection, SSignIn.new())
+	Multiplayer.server.send_to(id, SSignIn.new())
 
 
 func _check_client_version() -> bool:

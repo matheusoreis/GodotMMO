@@ -1,10 +1,10 @@
 class_name Server extends Node
 
 
-signal accepted_connection(connection: ConnectionModel)
-signal connection_finished(connection: ConnectionModel)
+signal accepted_connection(id: int)
+signal connection_finished(id: int)
 signal server_error(message: String)
-signal received_packed(connection: ConnectionModel, packed: PackedByteArray)
+signal received_packed(id: int, packed: PackedByteArray)
 
 
 var _socket: ENetConnection
@@ -82,9 +82,12 @@ func _handle_error() -> void:
 func _handle_connect(peer: ENetPacketPeer) -> void:
 	var connection := ConnectionModel.new()
 	connection.peer = peer
-	connection.id = add_connection(connection)
 
-	if connection.id == -1:
+	var connection_id = add_connection(connection)
+	print(connection_id)
+	connection.id = connection_id
+
+	if connection_id == -1:
 		server_error.emit("Servidor cheio! Não há espaço para novas conexões.")
 		return
 
@@ -93,71 +96,87 @@ func _handle_connect(peer: ENetPacketPeer) -> void:
 
 func _handle_disconnect(peer: ENetPacketPeer) -> void:
 	var connection := find_connection_by_peer(peer)
+	var connection_id := connection.id
 	if connection == null:
 		return
 
 	connection_finished.emit(connection)
-	remove_connection(connection.id)
+	remove_connection(connection_id)
 
 
 func _handle_receive(peer: ENetPacketPeer) -> void:
 	var connection := find_connection_by_peer(peer)
+	var connection_id := connection.id
 	if connection == null:
 		return
 
 	var packed := peer.get_packet()
 	if packed.size() < 2:
-		disconnect_from_server(connection)
+		disconnect_from_server(connection_id)
 		return
 
-	received_packed.emit(connection, packed)
+	received_packed.emit(connection_id, packed)
 
 
 func _validate_connection(connection: ConnectionModel) -> bool:
-	if connection.id < 0:
+	var connection_id := connection.id
+
+	if connection_id < 0:
 		server_error.emit("Tentativa de expulsar uma conexão inexistente! ID inválido.")
 		return false
 
-	if connection.id >= _connections.size():
+	if connection_id >= _connections.size():
 		server_error.emit("Tentativa de expulsar uma conexão inexistente! ID fora do limite.")
 		return false
 
-	if _connections[connection.id] != connection:
+	if _connections[connection_id] != connection:
 		server_error.emit("Tentativa de expulsar uma conexão inexistente! Network não corresponde.")
 		return false
 
 	return true
 
 
-func disconnect_from_server(connection: ConnectionModel) -> void:
-	if not _validate_connection(connection):
+func disconnect_from_server(id: int) -> void:
+	if id < 0 or id >= _connections.size() or _connections[id] == null:
+		server_error.emit("Tentativa de desconectar uma conexão inexistente ou inválida! ID: %d" % id)
 		return
 
+	var connection := _connections[id]
 	connection.peer.peer_disconnect_later()
 
+	remove_connection(id)
+	connection_finished.emit(id)
 
-func send_to(connection: ConnectionModel, packet: Packet, channel: int = 0, reliable: bool = true) -> void:
-	if not _validate_connection(connection):
+
+func send_to(id: int, packet: Packet, channel: int = 0, reliable: bool = true) -> void:
+	if id < 0 or id >= _connections.size() or _connections[id] == null:
+		server_error.emit("Tentativa de enviar para uma conexão inexistente ou inválida! ID: %d" % id)
 		return
+
+	var connection := _connections[id]
 
 	var writer := StreamPeerBuffer.new()
 	packet.serialize(writer)
 
-	var flag = 1
-	if not reliable:
-		flag = 2
-
 	var packed := writer.data_array
-	connection.peer.send(channel, packed, reliable)
+
+	var flag := ENetPacketPeer.FLAG_RELIABLE if reliable else ENetPacketPeer.FLAG_UNSEQUENCED
+	connection.peer.send(
+		channel,
+		packed,
+		flag
+	)
 
 
-func send_to_all(packet: Packet, channel: int = 0) -> void:
+func send_to_all(packet: Packet, channel: int = 0, reliable: bool = true) -> void:
 	for connection in _connections:
-		send_to(connection, packet, channel)
+		if connection != null:
+			var connection_id := connection.id
+			send_to(connection_id, packet, channel, reliable)
 
 
-func send_to_all_except(packet: Packet, except_connection: ConnectionModel, channel: int = 0) -> void:
+func send_to_all_except(packet: Packet, except_id: int, channel: int = 0, reliable: bool = true) -> void:
 	for connection in _connections:
-		if connection == except_connection:
-			continue
-		send_to(connection, packet, channel)
+		var connection_id := connection.id
+		if connection != null and connection_id != except_id:
+			send_to(connection_id, packet, channel, reliable)
