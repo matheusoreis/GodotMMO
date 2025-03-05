@@ -22,6 +22,7 @@ func _ready() -> void:
 		SSignUp.new(),
 		SCharacterList.new(),
 		SCreateCharacter.new(),
+		SDeleteCharacter.new(),
 	])
 
 

@@ -22,6 +22,7 @@ func _ready() -> void:
 		CSignUp.new(),
 		CCharacterList.new(),
 		CCreateCharacter.new(),
+		CDeleteCharacter.new(),
 	])
 
 

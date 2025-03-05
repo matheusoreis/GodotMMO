@@ -17,7 +17,8 @@ func update_character_panels(characters: Array[CharacterModel], max_characters: 
 		var character := characters[i] as CharacterModel
 
 		var slot := slot_scene.instantiate() as CharacterListSlot
-		slot.id = character.id
+		slot.name = str(character.id)
+		slot.character_id = character.id
 		slot.add_name(character.name)
 		slot.add_texture(character.skin)
 		slot.add_direction(character.direction)

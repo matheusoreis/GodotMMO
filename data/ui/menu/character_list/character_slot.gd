@@ -8,11 +8,11 @@ class_name CharacterListSlot extends PanelContainer
 @export var _texture_sprite: Sprite2D
 
 @export_subgroup("Buttons")
-@export var _select_button: Button
-@export var _delete_button: Button
+@export var select_button: Button
+@export var delete_button: Button
 
 
-var id: int
+var character_id: int
 
 
 func add_name(value: String) -> void:
@@ -38,20 +38,15 @@ func add_direction(value: Vector2) -> void:
 
 
 func _on_select_pressed() -> void:
-	_select_button.disabled = true
-	_delete_button.disabled = true
-	#Multiplayer.client.send(
-		#CSelectCharacterOutgoing.new(
-			#_id
-		#)
-	#)
+	select_button.disabled = true
+	delete_button.disabled = true
 
 
 func _on_delete_pressed() -> void:
-	_select_button.disabled = true
-	_delete_button.disabled = true
-	#Multiplayer.client.send(
-		#CDeleteCharacterOutgoing.new(
-			#_id
-		#)
-	#)
+	select_button.disabled = true
+	delete_button.disabled = true
+
+	var packet := CDeleteCharacter.new()
+	packet.character_id = character_id
+
+	Multiplayer.client.send(packet)
