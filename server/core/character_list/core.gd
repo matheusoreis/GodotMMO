@@ -69,6 +69,8 @@ func handle(_tree: SceneTree, id: int = -1) -> void:
 
 	characters.clear()
 	for i in response_data:
+		print(i["direction_x"])
+		print(i["direction_y"])
 		var character := CharacterModel.new()
 		character.id = i["id"]
 		character.name = i["name"]
