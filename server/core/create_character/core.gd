@@ -1,17 +1,14 @@
-class_name SSignUp extends Packet
+class_name SCreateCharacter extends Packet
 
 
-var major_version: int = -1
-var minor_version: int = -1
-var revision_version: int = -1
-
-var email: String = ""
-var password: String = ""
+var name: String = ""
+var skin: String = ""
+var success_message: String = ""
 var error_messages: Array[String] = []
 
 
 func _init():
-	header = Packets.SIGN_UP
+	header = Packets.CREATE_CHARACTER
 
 
 func serialize(writer: StreamPeerBuffer) -> void:
@@ -25,26 +22,22 @@ func serialize(writer: StreamPeerBuffer) -> void:
 		return
 
 	writer.put_u8(int(false))
+	writer.put_utf8_string(success_message)
 
 
 func deserialize(reader: StreamPeerBuffer) -> void:
 	super.deserialize(reader)
 
-	major_version = reader.get_u16()
-	minor_version = reader.get_u16()
-	revision_version = reader.get_u16()
-	email = reader.get_utf8_string()
-	password = reader.get_utf8_string()
+	name = reader.get_utf8_string()
+	skin = reader.get_utf8_string()
 
 
 func handle(_tree: SceneTree, id: int = -1) -> void:
 	if id == -1:
 		return
 
-	if not _check_client_version():
-		error_messages.append("O seu cliente está desatualizado!")
-
-	var endpoint = SConstants.backend_endpoint + "authentication/sign-up"
+	var user: UserModel = SGlobals.users[id]
+	var endpoint = SConstants.backend_endpoint + "character"
 
 	var headers = {
 		"Content-Type": "application/json",
@@ -52,9 +45,9 @@ func handle(_tree: SceneTree, id: int = -1) -> void:
 	}
 
 	var body = {
-		"email": email,
-		"password": password,
-		"passwordConfirmation": password,
+		"id": user.id,
+		"name": name,
+		"skin": skin,
 	}
 
 	var result := await Fetcher.fetch_json(HTTPClient.METHOD_POST, endpoint, body, headers)
@@ -66,8 +59,10 @@ func handle(_tree: SceneTree, id: int = -1) -> void:
 		Multiplayer.server.send_to(id, self)
 		return
 
+	if not ("message" in response_data):
+		error_messages.append("Erro na resposta ao criar seu personagem.")
+		Multiplayer.server.send_to(id, self)
+		return
+
+	success_message = response_data["message"]
 	Multiplayer.server.send_to(id, self)
-
-
-func _check_client_version() -> bool:
-	return major_version == SConstants.major_version and minor_version == SConstants.minor_version and revision_version == SConstants.revision_version

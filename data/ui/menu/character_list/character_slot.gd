@@ -21,7 +21,7 @@ func add_name(value: String) -> void:
 
 func add_texture(value: String) -> void:
 	var skin_texture := load(
-		'res://assets/graphics/characters/' + value + '.png'
+		'res://assets/characters/' + value + '.png'
 	) as CompressedTexture2D
 	_texture_sprite.texture = skin_texture
 

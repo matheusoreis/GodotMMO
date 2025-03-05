@@ -23,6 +23,7 @@ CGlobals="*res://client/utils/globals.gd"
 CNotification="*res://client/utils/notification.gd"
 SConstants="*res://server/utils/constants.gd"
 SGlobals="*res://server/utils/globals.gd"
+Fetcher="*res://shared/utils/fetch.gd"
 
 [rendering]
 

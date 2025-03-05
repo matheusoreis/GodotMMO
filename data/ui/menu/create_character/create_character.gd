@@ -61,17 +61,17 @@ func _on_confirm_pressed() -> void:
 	var texture_path := selected_texture.resource_path as String
 	var texture_file_name_extension := texture_path.get_file() as String
 	var texture_file_name := texture_file_name_extension.get_basename() as String
-	print(texture_file_name)
 
 	confirm_button.disabled = true
 	back_button.disabled = true
 
-	#Multiplayer.client.send(
-		#CCreateCharacterOutgoing.new(
-			#name_line.text,
-			#texture_file_name
-		#)
-	#)
+	var packet := CCreateCharacter.new()
+	packet.name = name_line.text
+	packet.skin = texture_file_name
+
+	Multiplayer.client.send(
+		packet,
+	)
 
 
 func _on_back_pressed() -> void:

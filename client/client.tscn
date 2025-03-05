@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dxty3338oiv6j"]
 
-[ext_resource type="Script" uid="uid://k4wkkd1q34n7" path="res://client/client.gd" id="1_evjpj"]
+[ext_resource type="Script" uid="uid://8i32muc41xg5" path="res://client/client.gd" id="1_miugc"]
 [ext_resource type="Script" uid="uid://ck8xp8vwdxaep" path="res://data/ui/menu/menu.gd" id="2_hgccj"]
 [ext_resource type="PackedScene" uid="uid://c07tci1jikxsc" path="res://data/ui/menu/sign_up/sign_up.tscn" id="3_8koj6"]
 [ext_resource type="PackedScene" uid="uid://c2uek6s5dv2o4" path="res://data/ui/menu/create_character/create_character.tscn" id="3_b8squ"]
@@ -14,14 +14,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_evjpj")
+script = ExtResource("1_miugc")
 
 [node name="world" type="Node2D" parent="."]
 
 [node name="game" type="CanvasLayer" parent="."]
 
-[node name="menu" type="CanvasLayer" parent="."]
+[node name="menu" type="CanvasLayer" parent="." node_paths=PackedStringArray("sign_in", "sign_up", "create_character", "character_list")]
 script = ExtResource("2_hgccj")
+sign_in = NodePath("sign_in")
+sign_up = NodePath("sign_up")
+create_character = NodePath("create_character")
+character_list = NodePath("character_list")
 
 [node name="create_character" parent="menu" instance=ExtResource("3_b8squ")]
 visible = false

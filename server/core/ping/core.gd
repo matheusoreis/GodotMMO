@@ -14,4 +14,4 @@ func deserialize(reader: StreamPeerBuffer) -> void:
 
 
 func handle(_tree: SceneTree, id: int = -1) -> void:
-	Multiplayer.server.send_to(id, SPing.new(), 0, false)
+	Multiplayer.server.send_to(id, self)

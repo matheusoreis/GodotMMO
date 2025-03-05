@@ -4,9 +4,9 @@ class_name CSignUp extends Packet
 var email: String = ""
 var password: String = ""
 
-var _contains_error: bool = false
-var _errors_size: int = -1
-var _errors: Array[String] = []
+var has_errors: bool = false
+var error_count: int = -1
+var error_messages: Array[String] = []
 
 
 func _init():
@@ -27,14 +27,13 @@ func serialize(writer: StreamPeerBuffer) -> void:
 func deserialize(reader: StreamPeerBuffer) -> void:
 	super.deserialize(reader)
 
-	_contains_error = bool(reader.get_u8())
-	if not _contains_error:
+	has_errors = bool(reader.get_u8())
+	if has_errors:
+		error_count = reader.get_u8()
+		error_messages.clear()
+		for i in range(error_count):
+			error_messages.append(reader.get_utf8_string())
 		return
-
-	_errors_size = reader.get_u8()
-	_errors.clear()
-	for i in range(_errors_size):
-		_errors.append(reader.get_utf8_string())
 
 
 func handle(_tree: SceneTree, _id: int = -1) -> void:
@@ -43,8 +42,8 @@ func handle(_tree: SceneTree, _id: int = -1) -> void:
 	sign_up_ui.back_button.disabled = false
 	sign_up_ui.close_button.disabled = false
 
-	if _contains_error:
-		CNotification.show(_errors)
+	if has_errors:
+		CNotification.show(error_messages)
 		return
 
 	sign_up_ui.email_line.clear()

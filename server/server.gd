@@ -20,6 +20,8 @@ func _ready() -> void:
 		SPing.new(),
 		SSignIn.new(),
 		SSignUp.new(),
+		SCharacterList.new(),
+		SCreateCharacter.new(),
 	])
 
 

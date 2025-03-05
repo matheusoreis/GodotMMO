@@ -20,6 +20,8 @@ func _ready() -> void:
 		CPing.new(),
 		CSignIn.new(),
 		CSignUp.new(),
+		CCharacterList.new(),
+		CCreateCharacter.new(),
 	])
 
 

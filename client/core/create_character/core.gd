@@ -1,27 +1,23 @@
-class_name CSignIn extends Packet
+class_name CCreateCharacter extends Packet
 
 
-var email: String = ''
-var password: String = ''
-
+var name: String = ""
+var skin: String = ""
 var has_errors: bool = false
 var error_count: int = -1
+var success_message: String = ""
 var error_messages: Array[String] = []
 
 
 func _init():
-	header = Packets.SIGN_IN
+	header = Packets.CREATE_CHARACTER
 
 
 func serialize(writer: StreamPeerBuffer) -> void:
 	super.serialize(writer)
 
-	writer.put_u16(CConstants.major_version)
-	writer.put_u16(CConstants.minor_version)
-	writer.put_u16(CConstants.revision_version)
-
-	writer.put_utf8_string(email)
-	writer.put_utf8_string(password)
+	writer.put_utf8_string(name)
+	writer.put_utf8_string(skin)
 
 
 func deserialize(reader: StreamPeerBuffer) -> void:
@@ -35,20 +31,24 @@ func deserialize(reader: StreamPeerBuffer) -> void:
 			error_messages.append(reader.get_utf8_string())
 		return
 
+	success_message = reader.get_utf8_string()
+
 
 func handle(_tree: SceneTree, _id: int = -1) -> void:
-	var sign_in_ui := CGlobals.menu_interface.get_interface("sign_in") as SignIn
-	sign_in_ui.sign_in_button.disabled = false
-	sign_in_ui.sign_up_button.disabled = false
+	var create_character_ui := CGlobals.menu_interface.get_interface("create_character") as CreateCharacter
+	create_character_ui.confirm_button.disabled = false
+	create_character_ui.back_button.disabled = false
 
 	if has_errors:
 		CNotification.show(error_messages)
 		return
 
-	sign_in_ui.email_line.clear()
-	sign_in_ui.password_line.clear()
+	create_character_ui.name_line.clear()
 
 	CGlobals.menu_interface.show_interface("character_list")
-	CGlobals.menu_interface.hide_interface("sign_in")
+	CGlobals.menu_interface.hide_interface("create_character")
 
 	Multiplayer.client.send(CCharacterList.new())
+
+	if not success_message.is_empty():
+		CNotification.show([success_message])

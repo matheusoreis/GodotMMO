@@ -8,9 +8,9 @@ func serialize(writer: StreamPeerBuffer) -> void:
 	writer.put_u16(header)
 
 
-func deserialize(reader: StreamPeerBuffer) -> void:
+func deserialize(_reader: StreamPeerBuffer) -> void:
 	pass
 
 
-func handle(_tree: SceneTree, id: int = -1) -> void:
+func handle(_tree: SceneTree, _id: int = -1) -> void:
 	pass

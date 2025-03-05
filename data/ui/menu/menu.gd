@@ -1,10 +1,10 @@
 extends CanvasLayer
 
 
-@onready var sign_in: SignIn = $sign_in
-@onready var sign_up: SignUp = $sign_up
-@onready var create_character: CreateCharacter = $create_character
-@onready var character_list: CharacterList = $character_list
+@export var sign_in: SignIn
+@export var sign_up: SignUp
+@export var create_character: CreateCharacter
+@export var character_list: CharacterList
 
 
 func _ready() -> void:

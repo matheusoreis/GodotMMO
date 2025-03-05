@@ -46,6 +46,9 @@ func format_errors(response_data: Dictionary) -> Array[String]:
 		return error_messages
 
 	var messages = response_data.get("message", [])
+	if messages is String:
+		messages = [messages]
+
 	var error_type = response_data.get("error", "Erro desconhecido")
 	var status_code = response_data.get("statusCode", 0)
 
@@ -53,9 +56,6 @@ func format_errors(response_data: Dictionary) -> Array[String]:
 		for msg in messages:
 			if msg is String:
 				error_messages.append(msg)
-
-	elif messages is String:
-		error_messages.append(messages)
 
 	if error_messages.is_empty():
 		error_messages.append("Erro " + str(status_code) + " - " + error_type)
