@@ -74,8 +74,8 @@ func handle(_tree: SceneTree, id: int = -1) -> void:
 		character.name = i["name"]
 		character.skin = i["skin"]
 		character.direction = Vector2(
-			i["position_x"],
-			i["position_y"]
+			i["direction_x"],
+			i["direction_y"]
 		)
 
 		characters.append(character)
