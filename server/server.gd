@@ -18,7 +18,8 @@ func _ready() -> void:
 
 	_handler = Handler.new([
 		SPing.new(),
-		SSignIn.new()
+		SSignIn.new(),
+		SSignUp.new(),
 	])
 
 

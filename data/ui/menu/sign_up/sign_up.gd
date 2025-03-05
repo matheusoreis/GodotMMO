@@ -52,9 +52,12 @@ func _on_sign_up_pressed() -> void:
 
 	sign_up_button.disabled = true
 	back_button.disabled = true
-	#Multiplayer.client.send(
-		#CSignUpOutgoing.new(
-			#email_line.text,
-			#password_line.text
-		#)
-	#)
+	close_button.disabled = true
+
+	var packet := CSignUp.new()
+	packet.email = email_line.text
+	packet.password = password_line.text
+
+	Multiplayer.client.send(
+		packet,
+	)

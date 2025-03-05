@@ -1,8 +1,8 @@
-class_name CSignIn extends Packet
+class_name CSignUp extends Packet
 
 
-var email: String = ''
-var password: String = ''
+var email: String = ""
+var password: String = ""
 
 var _contains_error: bool = false
 var _errors_size: int = -1
@@ -10,7 +10,7 @@ var _errors: Array[String] = []
 
 
 func _init():
-	header = Packets.SIGN_IN
+	header = Packets.SIGN_UP
 
 
 func serialize(writer: StreamPeerBuffer) -> void:
@@ -38,16 +38,20 @@ func deserialize(reader: StreamPeerBuffer) -> void:
 
 
 func handle(_tree: SceneTree, _id: int = -1) -> void:
-	var sign_in_ui := CGlobals.menu_interface.get_interface("sign_in") as SignIn
-	sign_in_ui.sign_in_button.disabled = false
-	sign_in_ui.sign_up_button.disabled = false
+	var sign_up_ui := CGlobals.menu_interface.get_interface("sign_up") as SignUp
+	sign_up_ui.sign_up_button.disabled = false
+	sign_up_ui.back_button.disabled = false
+	sign_up_ui.close_button.disabled = false
 
 	if _contains_error:
 		CNotification.show(_errors)
 		return
 
-	sign_in_ui.email_line.clear()
-	sign_in_ui.password_line.clear()
+	sign_up_ui.email_line.clear()
+	sign_up_ui.password_line.clear()
+	sign_up_ui.repassword_line.clear()
 
-	CGlobals.menu_interface.show_interface("character_list")
-	CGlobals.menu_interface.hide_interface("sign_in")
+	CGlobals.menu_interface.show_interface("sign_in")
+	CGlobals.menu_interface.hide_interface("sign_up")
+
+	CNotification.show(["Sucesso ao se cadastrar no jogo!"])

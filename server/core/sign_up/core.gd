@@ -1,4 +1,4 @@
-class_name SSignIn extends Packet
+class_name SSignUp extends Packet
 
 
 var major_version: int = -1
@@ -7,13 +7,11 @@ var revision_version: int = -1
 
 var email: String = ""
 var password: String = ""
-
-var user: UserModel = null
 var errors: Array[String] = []
 
 
 func _init():
-	header = Packets.SIGN_IN
+	header = Packets.SIGN_UP
 
 
 func serialize(writer: StreamPeerBuffer) -> void:

@@ -18,7 +18,8 @@ func _ready() -> void:
 
 	_handler = Handler.new([
 		CPing.new(),
-		CSignIn.new()
+		CSignIn.new(),
+		CSignUp.new(),
 	])
 
 
